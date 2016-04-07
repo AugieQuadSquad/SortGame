@@ -8,8 +8,7 @@ import android.content.Intent;
 
 public class MyActivity extends AppCompatActivity {
 
-    //test
-    //test test test
+    //test test test test test test
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
