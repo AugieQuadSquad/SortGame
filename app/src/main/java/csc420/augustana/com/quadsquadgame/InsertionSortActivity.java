@@ -46,18 +46,52 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             totalCount++;
         }
 
+        ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
+        ImageView boxView2 = (ImageView) findViewById(R.id.box_view2);
+        ImageView boxView3 = (ImageView) findViewById(R.id.box_view3);
+        ImageView boxView4 = (ImageView) findViewById(R.id.box_view4);
 
-        findViewById(R.id.box_view1).setOnTouchListener(this);
-        findViewById(R.id.box_view2).setOnTouchListener(this);
-        findViewById(R.id.box_view3).setOnTouchListener(this);
-        findViewById(R.id.box_view4).setOnTouchListener(this);
+        //The if statements here remove the "may produce java.lang.NullPointerException" error
+        if(boxView1 != null){
+            boxView1.setOnTouchListener(this);
+        }
+        if(boxView2 != null){
+            boxView2.setOnTouchListener(this);
+        }
+        if(boxView3 != null){
+            boxView3.setOnTouchListener(this);
+        }
+        if(boxView4 != null){
+            boxView4.setOnTouchListener(this);
+        }
 
-        findViewById(R.id.left_view).setOnDragListener(this);
-        findViewById(R.id.right_view).setOnDragListener(this);
-        findViewById(R.id.container_one).setOnDragListener(this);
-        findViewById(R.id.container_two).setOnDragListener(this);
-        findViewById(R.id.container_three).setOnDragListener(this);
-        findViewById(R.id.container_four).setOnDragListener(this);
+        LinearLayout leftView = (LinearLayout) findViewById(R.id.left_view);
+        LinearLayout rightView = (LinearLayout) findViewById(R.id.right_view);
+        LinearLayout cont1 = (LinearLayout) findViewById(R.id.container_one);
+        LinearLayout cont2 = (LinearLayout) findViewById(R.id.container_two);
+        LinearLayout cont3 = (LinearLayout) findViewById(R.id.container_three);
+        LinearLayout cont4 = (LinearLayout) findViewById(R.id.container_four);
+
+        //The if statements here removes the "may produce java.lang.NullPointerException" error
+        if(leftView != null){
+            leftView.setOnDragListener(this);
+        }
+        if(rightView != null){
+            rightView.setOnDragListener(this);
+        }
+        if(cont1 != null){
+            cont1.setOnDragListener(this);
+        }
+        if(cont2 != null){
+            cont2.setOnDragListener(this);
+        }
+        if(cont3 != null){
+            cont3.setOnDragListener(this);
+        }
+        if(cont4 != null){
+            cont4.setOnDragListener(this);
+        }
+
 
         // TODO: change to array to check through in onDrag
         countCont1 = 0;
@@ -168,6 +202,12 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
 
     public void iterateList(View v){
+
+        LinearLayout bookCont1 = (LinearLayout) findViewById(R.id.book_cont1);
+        LinearLayout bookCont2 = (LinearLayout) findViewById(R.id.book_cont2);
+        LinearLayout bookCont3 = (LinearLayout) findViewById(R.id.book_cont3);
+        LinearLayout bookCont4 = (LinearLayout) findViewById(R.id.book_cont4);
+
         /*Rect rect;
         ImageView currentIV;
 
@@ -179,23 +219,34 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         // currentIV.setColorFilter(Color.argb(0,0,0,0));*/
         LinearLayout view;
 
+        //The interior if statements here remove the "may produce java.lang.NullPointerException" error
         if(currentBookNo == 0) {
-            findViewById(R.id.book_cont1).setBackgroundColor(Color.WHITE);
-            findViewById(R.id.book_cont4).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            if(bookCont1 != null && bookCont4 != null){
+                bookCont1.setBackgroundColor(Color.WHITE);
+                bookCont4.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            }
         } else if(currentBookNo==1){
-            findViewById(R.id.book_cont2).setBackgroundColor(Color.WHITE);
-            findViewById(R.id.book_cont1).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            if(bookCont2 != null && bookCont1 != null){
+                bookCont2.setBackgroundColor(Color.WHITE);
+                bookCont1.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            }
         } else if(currentBookNo==2) {
-            findViewById(R.id.book_cont3).setBackgroundColor(Color.WHITE);
-            findViewById(R.id.book_cont2).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            if(bookCont2 != null && bookCont3 != null){
+                bookCont3.setBackgroundColor(Color.WHITE);
+                bookCont2.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            }
         } else {
-            findViewById(R.id.book_cont4).setBackgroundColor(Color.WHITE);
-            findViewById(R.id.book_cont3).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            if(bookCont4 != null && bookCont3 != null){
+                bookCont4.setBackgroundColor(Color.WHITE);
+                bookCont3.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+            }
         }
 
 
         ImageView currentIV = (ImageView) findViewById(R.id.box_view1);
-        currentIV.invalidate();
+        if(currentIV != null){
+            currentIV.invalidate();
+        }
         if(currentBookNo==3){
             currentBookNo=0;
         } else{
