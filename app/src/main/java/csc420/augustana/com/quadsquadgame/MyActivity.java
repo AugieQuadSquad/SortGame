@@ -26,7 +26,7 @@ public class MyActivity extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener1 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MyActivity.this, TutorialOption.class);
+            Intent tutorialOption = new Intent(MyActivity.this, InsertionSortActivity.class);
             tutorialOption.putExtra("button", "1");
             startActivity(tutorialOption);
         }

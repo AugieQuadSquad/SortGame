@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class InsertionSortActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
 
@@ -31,11 +32,20 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     private BookItem[] books = new BookItem[15];
     int totalCount = 0;
     int currentBookNo = 0;
+    int randomNum1, randomNum2, randomNum3, randomNum4;
+    Random rand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertion_sort);
+
+        rand = new Random();
+        //initialize random numbers 1-50.
+        randomNum1 = rand.nextInt(50) + 1;
+        randomNum2 = rand.nextInt(50) + 1;
+        randomNum3 = rand.nextInt(50) + 1;
+        randomNum4 = rand.nextInt(50) + 1;
 
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
 
@@ -224,21 +234,25 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             if(bookCont1 != null && bookCont4 != null){
                 bookCont1.setBackgroundColor(Color.WHITE);
                 bookCont4.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+                Toast.makeText(this, (randomNum1 + ""), Toast.LENGTH_SHORT).show();
             }
         } else if(currentBookNo==1){
             if(bookCont2 != null && bookCont1 != null){
                 bookCont2.setBackgroundColor(Color.WHITE);
                 bookCont1.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+                Toast.makeText(this, (randomNum2 + ""), Toast.LENGTH_SHORT).show();
             }
         } else if(currentBookNo==2) {
             if(bookCont2 != null && bookCont3 != null){
                 bookCont3.setBackgroundColor(Color.WHITE);
                 bookCont2.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+                Toast.makeText(this, (randomNum3 + ""), Toast.LENGTH_SHORT).show();
             }
         } else {
             if(bookCont4 != null && bookCont3 != null){
                 bookCont4.setBackgroundColor(Color.WHITE);
                 bookCont3.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+                Toast.makeText(this, (randomNum4 + ""), Toast.LENGTH_SHORT).show();
             }
         }
 
