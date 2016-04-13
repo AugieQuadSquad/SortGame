@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class ItemDatabase {
     // array of values associated with each item in order to sort
     public static int value[] = {
-            3, 14, 15, 9
+            3, 14, 27, 9
     };
 
     // array of the item ids

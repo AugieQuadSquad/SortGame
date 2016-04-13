@@ -28,7 +28,7 @@ import java.util.Random;
 public class InsertionSortActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
 
     private int countCont1, countCont2, countCont3, countCont4;
-    private GestureDetector gestureDetector;
+    private int countUpCont1, countUpCont2, countUpCont3, countUpCont4;
     private BookItem[] books = new BookItem[15];
     int totalCount = 0;
     int currentBookNo = 0;
@@ -47,10 +47,8 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         randomNum3 = rand.nextInt(50) + 1;
         randomNum4 = rand.nextInt(50) + 1;
 
-        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
 
         for (int i=0; i < ItemDatabase.value.length; i++) {
-            // bookIV = new ImageView(this);
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i]);
             books[i] = book;
             totalCount++;
@@ -108,13 +106,15 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         countCont2 = 0;
         countCont3 = 0;
         countCont4 = 0;
+
+        countUpCont1 = countUpCont2 = countUpCont3 = countUpCont4 = 1;
     }
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
         // TODO Auto-generated method stub
         if(event.getAction()==DragEvent.ACTION_DROP){
-            //we want to make sure it is dropped only to left and right parent view
+            //we want to make sure it is dropped only to top and bottom parent view
             View view = (View)event.getLocalState();
 
             // Potentially change to case/switch rather than if else statements
@@ -146,6 +146,20 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
                     }
                 }
 
+                Boolean movedOutofTop = checkBoxViewEmpty(source.getId());
+                if(!movedOutofTop){
+                    if(v.getId() == R.id.book_cont1){
+                        countUpCont1++;
+                    } else if(v.getId() == R.id.book_cont2) {
+                        countUpCont2++;
+                    } else if(v.getId() == R.id.book_cont3) {
+                        countUpCont3++;
+                    } else{
+                        countUpCont4++;
+                    }
+                }
+
+
                 LinearLayout target = (LinearLayout) v;
                 target.addView(view);
             }
@@ -164,24 +178,29 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             view.setVisibility(View.INVISIBLE);
             return true;
         }
-        /*ImageView image = (ImageView) findViewById(R.id.box_view1);
-        Rect rect = new Rect();
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            image.setColorFilter(Color.argb(50, 0, 0, 0));
-            rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-        }
-        if(event.getAction() == MotionEvent.ACTION_UP){
-            image.setColorFilter(Color.argb(0, 0, 0, 0));
-        }
-        if(event.getAction() == MotionEvent.ACTION_MOVE){
-            if(!rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())){
-                image.setColorFilter(Color.argb(0, 0, 0, 0));
-            }
-        }*/
-
+        currentBookNo=0;
+        findViewById(R.id.book_cont1).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+        findViewById(R.id.book_cont2).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+        findViewById(R.id.book_cont3).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
+        findViewById(R.id.book_cont4).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
         return false;
     }
 
+
+    private boolean checkBoxViewEmpty(int sourceLL){
+        if(sourceLL == R.id.book_cont1){
+            countUpCont1--;
+        } else if(sourceLL == R.id.book_cont2) {
+            countUpCont2--;
+        } else if(sourceLL == R.id.book_cont3) {
+            countUpCont3--;
+        } else if(sourceLL == R.id.book_cont4){
+            countUpCont4--;
+        } else {
+            // return false;
+        }
+        return true;
+    }
 
 /*    public boolean checkSort() {
 
@@ -198,18 +217,6 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     }
 
 
-    private class SingleTapConfirm extends SimpleOnGestureListener {
-        /*@Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }*/
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent event) {
-            return true;
-        }
-    }
-
 
     public void iterateList(View v){
 
@@ -218,44 +225,49 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         LinearLayout bookCont3 = (LinearLayout) findViewById(R.id.book_cont3);
         LinearLayout bookCont4 = (LinearLayout) findViewById(R.id.book_cont4);
 
-        /*Rect rect;
-        ImageView currentIV;
 
-        book_cont1
-
-        currentIV = (ImageView) findViewById(books[currentBookNo].getId());
-        currentIV.setColorFilter(Color.argb(50, 0, 0, 0));
-        rect = new Rect(currentIV.getLeft(), currentIV.getTop(), currentIV.getRight(), currentIV.getBottom());
-        // currentIV.setColorFilter(Color.argb(0,0,0,0));*/
         LinearLayout view;
 
         //The interior if statements here remove the "may produce java.lang.NullPointerException" error
         if(currentBookNo == 0) {
             if(bookCont1 != null && bookCont4 != null){
-                bookCont1.setBackgroundColor(Color.WHITE);
                 bookCont4.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                Toast.makeText(this, (randomNum1 + ""), Toast.LENGTH_SHORT).show();
+                if(countUpCont1>0){
+                    bookCont1.setBackgroundColor(Color.WHITE);
+                    // Toast.makeText(this, (randomNum1 + ""), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
+                }
             }
         } else if(currentBookNo==1){
             if(bookCont2 != null && bookCont1 != null){
-                bookCont2.setBackgroundColor(Color.WHITE);
                 bookCont1.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                Toast.makeText(this, (randomNum2 + ""), Toast.LENGTH_SHORT).show();
+                if(countUpCont2>0){
+                    bookCont2.setBackgroundColor(Color.WHITE);
+                    //Toast.makeText(this, (randomNum2 + ""), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
+                }
             }
         } else if(currentBookNo==2) {
             if(bookCont2 != null && bookCont3 != null){
-                bookCont3.setBackgroundColor(Color.WHITE);
                 bookCont2.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                Toast.makeText(this, (randomNum3 + ""), Toast.LENGTH_SHORT).show();
+                if(countUpCont3>0) {
+                    bookCont3.setBackgroundColor(Color.WHITE);
+                    // Toast.makeText(this, (randomNum3 + ""), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             if(bookCont4 != null && bookCont3 != null){
-                bookCont4.setBackgroundColor(Color.WHITE);
                 bookCont3.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                Toast.makeText(this, (randomNum4 + ""), Toast.LENGTH_SHORT).show();
+                if(countUpCont4>0) {
+                    bookCont4.setBackgroundColor(Color.WHITE);
+                    //Toast.makeText(this, (randomNum4 + ""), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
+        // Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
 
         ImageView currentIV = (ImageView) findViewById(R.id.box_view1);
         if(currentIV != null){
