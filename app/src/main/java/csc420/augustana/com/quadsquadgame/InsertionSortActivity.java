@@ -118,6 +118,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             View view = (View)event.getLocalState();
 
             // Potentially change to case/switch rather than if else statements
+            // TODO: CHANGE TO ARRAY CHECK
             if(v.getId() == R.id.left_view  || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)){
 
 
