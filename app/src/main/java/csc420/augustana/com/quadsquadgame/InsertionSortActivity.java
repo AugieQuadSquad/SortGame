@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.view.GestureDetector.SimpleOnGestureListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.Random;
 
@@ -36,21 +41,13 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertion_sort);
+        ItemDatabase.setValues();
 
-        rand = new Random();
-        //initialize random numbers 1-50.
-        randomNum1 = rand.nextInt(50) + 1;
-        randomNum2 = rand.nextInt(50) + 1;
-        randomNum3 = rand.nextInt(50) + 1;
-        randomNum4 = rand.nextInt(50) + 1;
-
-
-        for (int i = 0; i < ItemDatabase.value.length; i++) {
+        for (int i=0; i < ItemDatabase.value.length; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i]);
             books[i] = book;
             totalCount++;
         }
-
 
         ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
         ImageView boxView2 = (ImageView) findViewById(R.id.box_view2);
@@ -80,7 +77,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         lowerViews[1] = findViewById(R.id.container_two);
         lowerViews[2] = findViewById(R.id.container_three);
         lowerViews[3] = findViewById(R.id.container_four);
-
+        
 
         for (int i = 0; i < books.length; i++) {
             countLower[i] = 0;
@@ -282,5 +279,4 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             currentBookNo++;
         }
     }
-
 }
