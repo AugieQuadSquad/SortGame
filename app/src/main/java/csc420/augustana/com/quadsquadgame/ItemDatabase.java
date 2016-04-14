@@ -41,4 +41,12 @@ public class ItemDatabase {
         randomNum3 = rand.nextInt(50) + 1;
         randomNum4 = rand.nextInt(50) + 1;
     }
+
+    public static int upperContainer[] = {
+            R.id.book_cont1, R.id.book_cont2, R.id.book_cont3, R.id.book_cont4
+    };
+
+    public static int lowerContainer[] = {
+            R.id.container_one, R.id.container_two, R.id.container_three, R.id.container_four
+    };
 }

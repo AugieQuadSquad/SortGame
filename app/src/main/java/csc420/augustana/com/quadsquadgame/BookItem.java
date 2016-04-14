@@ -1,5 +1,7 @@
 package csc420.augustana.com.quadsquadgame;
 
+import android.view.View;
+
 /**
  * Created by Cat on 4/6/2016.
  *
@@ -11,10 +13,12 @@ package csc420.augustana.com.quadsquadgame;
 public class BookItem {
     private int mValue;
     private int mId;
+    private int mContainer;
 
-    public BookItem (int value, int id) {
+    public BookItem (int value, int id, int container) {
         mValue = value;
         mId = id;
+        mContainer = container;
     }
 
     public int getValue(){
@@ -23,6 +27,10 @@ public class BookItem {
 
     public void setValue(int value) {
         mValue = value;
+    }
+
+    public void setContainer(int myView){
+        mContainer = myView;
     }
 
     public int getId() {
