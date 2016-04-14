@@ -22,7 +22,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.view.GestureDetector.SimpleOnGestureListener;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 //TESTING UPDATES
@@ -45,13 +48,9 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertion_sort);
+        ItemDatabase.setValues();
 
-        rand = new Random();
-        //initialize random numbers 1-50.
-        randomNum1 = rand.nextInt(50) + 1;
-        randomNum2 = rand.nextInt(50) + 1;
-        randomNum3 = rand.nextInt(50) + 1;
-        randomNum4 = rand.nextInt(50) + 1;
+
 
 
         for (int i=0; i < ItemDatabase.value.length; i++) {
@@ -129,7 +128,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         countCont3 = 0;
         countCont4 = 0;*/
 
-        for(int i=0; i<books.length; i++){
+        for(int i=0; i < books.length; i++){
             countLower[i] = 0;
             countUpper[i] = 1;
         }
@@ -307,5 +306,4 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             currentBookNo++;
         }
     }
-
 }
