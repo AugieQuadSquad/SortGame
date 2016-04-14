@@ -25,6 +25,8 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+//TESTING UPDATES
+
 public class InsertionSortActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
 
     private int countCont1, countCont2, countCont3, countCont4;
