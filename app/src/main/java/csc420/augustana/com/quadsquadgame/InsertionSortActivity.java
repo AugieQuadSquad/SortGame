@@ -26,7 +26,6 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 //TESTING UPDATES
 
@@ -37,8 +36,6 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     private BookItem[] books = new BookItem[15];
     int totalCount = 0;
     int currentBookNo = 0;
-    int randomNum1, randomNum2, randomNum3, randomNum4;
-    Random rand;
     private View[] upperLL = new View[15];
     private View[] lowerLL = new View[15];
     private int[] countUpper = new int[15];
@@ -50,15 +47,11 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         setContentView(R.layout.activity_insertion_sort);
         ItemDatabase.setValues();
 
-
-
-
         for (int i=0; i < ItemDatabase.value.length; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i]);
             books[i] = book;
             totalCount++;
         }
-
 
         ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
         ImageView boxView2 = (ImageView) findViewById(R.id.box_view2);
@@ -119,7 +112,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         }
         if(cont4 != null){
             cont4.setOnDragListener(this);
-        }*/
+        } */
 
 
         /* Should be done by for loop
