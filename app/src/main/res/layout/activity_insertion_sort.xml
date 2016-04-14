@@ -10,7 +10,7 @@
 
 
     <LinearLayout
-        android:id="@+id/left_view"
+        android:id="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -116,7 +116,7 @@
 
 
     <LinearLayout
-        android:id="@+id/right_view"
+        android:id="@+id/bottom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"

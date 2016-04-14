@@ -34,6 +34,10 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     int currentBookNo = 0;
     int randomNum1, randomNum2, randomNum3, randomNum4;
     Random rand;
+    private View[] upperLL = new View[15];
+    private View[] lowerLL = new View[15];
+    private int[] countUpper = new int[15];
+    private int[] countLower = new int[15];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             totalCount++;
         }
 
+
         ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
         ImageView boxView2 = (ImageView) findViewById(R.id.box_view2);
         ImageView boxView3 = (ImageView) findViewById(R.id.box_view3);
@@ -73,21 +78,36 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             boxView4.setOnTouchListener(this);
         }
 
-        LinearLayout leftView = (LinearLayout) findViewById(R.id.left_view);
-        LinearLayout rightView = (LinearLayout) findViewById(R.id.right_view);
+        LinearLayout topView = (LinearLayout) findViewById(R.id.top_view);
+        LinearLayout bottomView = (LinearLayout) findViewById(R.id.bottom_view);
         LinearLayout cont1 = (LinearLayout) findViewById(R.id.container_one);
         LinearLayout cont2 = (LinearLayout) findViewById(R.id.container_two);
         LinearLayout cont3 = (LinearLayout) findViewById(R.id.container_three);
         LinearLayout cont4 = (LinearLayout) findViewById(R.id.container_four);
 
+        lowerLL[0] = findViewById(R.id.container_one);
+        lowerLL[1] = findViewById(R.id.container_two);
+        lowerLL[2] = findViewById(R.id.container_three);
+        lowerLL[3] = findViewById(R.id.container_four);
+
+        for(int i=0; i<books.length; i++) {
+            if(lowerLL[i] != null) {
+                lowerLL[i].setOnDragListener(this);
+            }
+        }
+
+
         //The if statements here removes the "may produce java.lang.NullPointerException" error
-        if(leftView != null){
-            leftView.setOnDragListener(this);
+        // There should not be a drag listener for top and bottom view...
+/*        if(topView != null){
+            topView.setOnDragListener(this);
         }
-        if(rightView != null){
-            rightView.setOnDragListener(this);
-        }
-        if(cont1 != null){
+        if(bottomView != null){
+            bottomView.setOnDragListener(this);
+        }*/
+
+        // should be completed by for loop above (to test)
+/*        if(cont1 != null){
             cont1.setOnDragListener(this);
         }
         if(cont2 != null){
@@ -98,16 +118,21 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         }
         if(cont4 != null){
             cont4.setOnDragListener(this);
-        }
+        }*/
 
 
-        // TODO: change to array to check through in onDrag
+        /* Should be done by for loop
         countCont1 = 0;
         countCont2 = 0;
         countCont3 = 0;
-        countCont4 = 0;
+        countCont4 = 0;*/
 
-        countUpCont1 = countUpCont2 = countUpCont3 = countUpCont4 = 1;
+        for(int i=0; i<books.length; i++){
+            countLower[i] = 0;
+            countUpper[i] = 1;
+        }
+
+        // countUpCont1 = countUpCont2 = countUpCont3 = countUpCont4 = 1;
     }
 
     @Override
@@ -119,7 +144,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
             // Potentially change to case/switch rather than if else statements
             // TODO: CHANGE TO ARRAY CHECK
-            if(v.getId() == R.id.left_view  || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)){
+            if(v.getId() == R.id.top_view  || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)){
 
 
                 ViewGroup source = (ViewGroup) view.getParent();
