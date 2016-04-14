@@ -5,24 +5,15 @@ package csc420.augustana.com.quadsquadgame;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.media.Image;
 import android.view.DragEvent;
-import android.view.GestureDetector;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
-import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import java.util.ArrayList;
+
 import java.util.Random;
 
 //TESTING UPDATES
@@ -36,8 +27,8 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     int currentBookNo = 0;
     int randomNum1, randomNum2, randomNum3, randomNum4;
     Random rand;
-    private View[] upperLL = new View[15];
-    private View[] lowerLL = new View[15];
+    private View[] upperViews = new View[15];
+    private View[] lowerViews = new View[15];
     private int[] countUpper = new int[15];
     private int[] countLower = new int[15];
 
@@ -54,7 +45,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         randomNum4 = rand.nextInt(50) + 1;
 
 
-        for (int i=0; i < ItemDatabase.value.length; i++) {
+        for (int i = 0; i < ItemDatabase.value.length; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i]);
             books[i] = book;
             totalCount++;
@@ -67,93 +58,77 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         ImageView boxView4 = (ImageView) findViewById(R.id.box_view4);
 
         //The if statements here remove the "may produce java.lang.NullPointerException" error
-        if(boxView1 != null){
-            boxView1.setOnTouchListener(this);
+        if (boxView1 != null) {
+            boxView1.setOnDragListener(this);
         }
-        if(boxView2 != null){
-            boxView2.setOnTouchListener(this);
+        if (boxView2 != null) {
+            boxView2.setOnDragListener(this);
         }
-        if(boxView3 != null){
-            boxView3.setOnTouchListener(this);
+        if (boxView3 != null) {
+            boxView3.setOnDragListener(this);
         }
-        if(boxView4 != null){
-            boxView4.setOnTouchListener(this);
-        }
-
-        LinearLayout topView = (LinearLayout) findViewById(R.id.top_view);
-        LinearLayout bottomView = (LinearLayout) findViewById(R.id.bottom_view);
-        LinearLayout cont1 = (LinearLayout) findViewById(R.id.container_one);
-        LinearLayout cont2 = (LinearLayout) findViewById(R.id.container_two);
-        LinearLayout cont3 = (LinearLayout) findViewById(R.id.container_three);
-        LinearLayout cont4 = (LinearLayout) findViewById(R.id.container_four);
-
-        lowerLL[0] = findViewById(R.id.container_one);
-        lowerLL[1] = findViewById(R.id.container_two);
-        lowerLL[2] = findViewById(R.id.container_three);
-        lowerLL[3] = findViewById(R.id.container_four);
-
-        for(int i=0; i<books.length; i++) {
-            if(lowerLL[i] != null) {
-                lowerLL[i].setOnDragListener(this);
-            }
+        if (boxView4 != null) {
+            boxView4.setOnDragListener(this);
         }
 
+        upperViews[0] = findViewById(R.id.book_cont1);
+        upperViews[1] = findViewById(R.id.book_cont2);
+        upperViews[2] = findViewById(R.id.book_cont3);
+        upperViews[3] = findViewById(R.id.book_cont4);
 
-        //The if statements here removes the "may produce java.lang.NullPointerException" error
-        // There should not be a drag listener for top and bottom view...
-/*        if(topView != null){
-            topView.setOnDragListener(this);
-        }
-        if(bottomView != null){
-            bottomView.setOnDragListener(this);
-        }*/
-
-        // should be completed by for loop above (to test)
-/*        if(cont1 != null){
-            cont1.setOnDragListener(this);
-        }
-        if(cont2 != null){
-            cont2.setOnDragListener(this);
-        }
-        if(cont3 != null){
-            cont3.setOnDragListener(this);
-        }
-        if(cont4 != null){
-            cont4.setOnDragListener(this);
-        }*/
+        lowerViews[0] = findViewById(R.id.container_one);
+        lowerViews[1] = findViewById(R.id.container_two);
+        lowerViews[2] = findViewById(R.id.container_three);
+        lowerViews[3] = findViewById(R.id.container_four);
 
 
-        /* Should be done by for loop
-        countCont1 = 0;
-        countCont2 = 0;
-        countCont3 = 0;
-        countCont4 = 0;*/
-
-        for(int i=0; i<books.length; i++){
+        for (int i = 0; i < books.length; i++) {
             countLower[i] = 0;
             countUpper[i] = 1;
         }
-
-        // countUpCont1 = countUpCont2 = countUpCont3 = countUpCont4 = 1;
     }
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
         // TODO Auto-generated method stub
-        if(event.getAction()==DragEvent.ACTION_DROP){
+        if (event.getAction() == DragEvent.ACTION_DROP) {
             //we want to make sure it is dropped only to top and bottom parent view
-            View view = (View)event.getLocalState();
+            View view = (View) event.getLocalState();
 
-            // Potentially change to case/switch rather than if else statements
-            // TODO: CHANGE TO ARRAY CHECK
-            if(v.getId() == R.id.top_view  || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)){
+            ViewGroup source = (ViewGroup) view.getParent();
+            source.removeView(view);
 
 
-                ViewGroup source = (ViewGroup) view.getParent();
+            for (int i = 0; i < books.length; i++) {
+                // if the view dropping into is a lower view, add to lower view count
+                if (v.getId() == lowerViews[i].getId()) {
+                    countLower[i] = 1;
+                    if (source.getId() == upperViews[i].getId()) {
+                        countUpper[i] = 0;
+                    }
+                }
+                if(v.getId() == upperViews[i].getId()){
+                    countUpper[i] = 1;
+                    if (source.getId() == lowerViews[i].getId()) {
+                        countLower[i] = 0;
+                    }
+                }
+
+                LinearLayout target = (LinearLayout) v;
+                target.addView(view);
+            }
+
+
+/*            // Potentially change to case/switch rather than if else statements
+
+            if (v.getId() == R.id.top_view || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)) {
+
+
+                //ViewGroup source = (ViewGroup) view.getParent();
                 source.removeView(view);
 
 
-                // TODO: inefficient - recode?
+
                 if (v.getId() == R.id.container_one) {
                     countCont1 = 1;
                 } else if (v.getId() == R.id.container_two) {
@@ -163,34 +138,35 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
                 } else if (v.getId() == R.id.container_four) {
                     countCont4 = 1;
                 } else {
-                    if(source.getId() == R.id.container_one) {
+                    if (source.getId() == R.id.container_one) {
                         countCont1--;
-                    } else if(source.getId() == R.id.container_two) {
+                    } else if (source.getId() == R.id.container_two) {
                         countCont2--;
-                    } else if(source.getId() == R.id.container_three) {
+                    } else if (source.getId() == R.id.container_three) {
                         countCont3--;
-                    } else if(source.getId() == R.id.container_four) {
+                    } else if (source.getId() == R.id.container_four) {
                         countCont4--;
                     }
                 }
 
                 Boolean movedOutofTop = checkBoxViewEmpty(source.getId());
-                if(!movedOutofTop){
-                    if(v.getId() == R.id.book_cont1){
+                if (!movedOutofTop) {
+                    if (v.getId() == R.id.book_cont1) {
                         countUpCont1++;
-                    } else if(v.getId() == R.id.book_cont2) {
+                    } else if (v.getId() == R.id.book_cont2) {
                         countUpCont2++;
-                    } else if(v.getId() == R.id.book_cont3) {
+                    } else if (v.getId() == R.id.book_cont3) {
                         countUpCont3++;
-                    } else{
+                    } else {
                         countUpCont4++;
                     }
-                }
+                }*/
 
-
+/*
                 LinearLayout target = (LinearLayout) v;
                 target.addView(view);
-            }
+            }*/
+
             //make view visible as we set visibility to invisible while starting drag
             view.setVisibility(View.VISIBLE);
         }
@@ -200,13 +176,13 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         // TODO Auto-generated method stub
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
             view.startDrag(null, shadowBuilder, view, 0);
             view.setVisibility(View.INVISIBLE);
             return true;
         }
-        currentBookNo=0;
+        currentBookNo = 0;
         findViewById(R.id.book_cont1).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
         findViewById(R.id.book_cont2).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
         findViewById(R.id.book_cont3).setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
@@ -215,14 +191,14 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     }
 
 
-    private boolean checkBoxViewEmpty(int sourceLL){
-        if(sourceLL == R.id.book_cont1){
+    private boolean checkBoxViewEmpty(int sourceLL) {
+        if (sourceLL == R.id.book_cont1) {
             countUpCont1--;
-        } else if(sourceLL == R.id.book_cont2) {
+        } else if (sourceLL == R.id.book_cont2) {
             countUpCont2--;
-        } else if(sourceLL == R.id.book_cont3) {
+        } else if (sourceLL == R.id.book_cont3) {
             countUpCont3--;
-        } else if(sourceLL == R.id.book_cont4){
+        } else if (sourceLL == R.id.book_cont4) {
             countUpCont4--;
         } else {
             // return false;
@@ -245,8 +221,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     }
 
 
-
-    public void iterateList(View v){
+    public void iterateList(View v) {
 
         LinearLayout bookCont1 = (LinearLayout) findViewById(R.id.book_cont1);
         LinearLayout bookCont2 = (LinearLayout) findViewById(R.id.book_cont2);
@@ -257,37 +232,37 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         LinearLayout view;
 
         //The interior if statements here remove the "may produce java.lang.NullPointerException" error
-        if(currentBookNo == 0) {
-            if(bookCont1 != null && bookCont4 != null){
+        if (currentBookNo == 0) {
+            if (bookCont1 != null && bookCont4 != null) {
                 bookCont4.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if(countUpCont1>0){
+                if (countUpCont1 > 0) {
                     bookCont1.setBackgroundColor(Color.WHITE);
                     // Toast.makeText(this, (randomNum1 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
-        } else if(currentBookNo==1){
-            if(bookCont2 != null && bookCont1 != null){
+        } else if (currentBookNo == 1) {
+            if (bookCont2 != null && bookCont1 != null) {
                 bookCont1.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if(countUpCont2>0){
+                if (countUpCont2 > 0) {
                     bookCont2.setBackgroundColor(Color.WHITE);
                     //Toast.makeText(this, (randomNum2 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
-        } else if(currentBookNo==2) {
-            if(bookCont2 != null && bookCont3 != null){
+        } else if (currentBookNo == 2) {
+            if (bookCont2 != null && bookCont3 != null) {
                 bookCont2.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if(countUpCont3>0) {
+                if (countUpCont3 > 0) {
                     bookCont3.setBackgroundColor(Color.WHITE);
                     // Toast.makeText(this, (randomNum3 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
-            if(bookCont4 != null && bookCont3 != null){
+            if (bookCont4 != null && bookCont3 != null) {
                 bookCont3.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if(countUpCont4>0) {
+                if (countUpCont4 > 0) {
                     bookCont4.setBackgroundColor(Color.WHITE);
                     //Toast.makeText(this, (randomNum4 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
@@ -298,12 +273,12 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         // Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
 
         ImageView currentIV = (ImageView) findViewById(R.id.box_view1);
-        if(currentIV != null){
+        if (currentIV != null) {
             currentIV.invalidate();
         }
-        if(currentBookNo==3){
-            currentBookNo=0;
-        } else{
+        if (currentBookNo == 3) {
+            currentBookNo = 0;
+        } else {
             currentBookNo++;
         }
     }
