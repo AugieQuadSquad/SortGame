@@ -11,10 +11,13 @@ import java.util.Random;
  */
 
 public class ItemDatabase {
-    static int randomNum1;
-    static int randomNum2;
-    static int randomNum3;
-    static int randomNum4;
+    static Random rand = new Random();
+    //initialize random numbers 1-50.
+    static int randomNum1 = rand.nextInt(50) + 1;
+    static int randomNum2 = rand.nextInt(50) + 1;
+    static int randomNum3 = rand.nextInt(50) + 1;
+    static int randomNum4 = rand.nextInt(50) + 1;
+
 
     // array of values associated with each item in order to sort
     public static int value[] = {

@@ -3,6 +3,7 @@ package csc420.augustana.com.quadsquadgame;
 // Source code based off http://androidsrc.net/android-view-drag-drop-functionality-sample-application/
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -26,8 +27,6 @@ import java.util.Random;
 
 public class InsertionSortActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener {
 
-    private int countCont1, countCont2, countCont3, countCont4;
-    private int countUpCont1, countUpCont2, countUpCont3, countUpCont4;
     private BookItem[] books = new BookItem[15];
     int totalCount = 0;
     int currentBookNo = 0;
@@ -43,13 +42,15 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         setContentView(R.layout.activity_insertion_sort);
         ItemDatabase.setValues();
 
-        for (int i=0; i < ItemDatabase.value.length; i++) {
+
+        for (int i = 0; i < ItemDatabase.value.length; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i], ItemDatabase.upperContainer[i]);
+            book.setValue(ItemDatabase.value[i]);
             books[i] = book;
             totalCount++;
         }
 
-        for(int i = 0; i < totalCount; i++){
+        for (int i = 0; i < totalCount; i++) {
             upperViews[i] = findViewById(ItemDatabase.upperContainer[i]);
             lowerViews[i] = findViewById(ItemDatabase.lowerContainer[i]);
             upperViews[i].setOnDragListener(this);
@@ -57,6 +58,10 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
             countLower[i] = 0;
             countUpper[i] = 1;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            containersInUse[i] = ItemDatabase.upperContainer[i];
         }
 
         ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
@@ -78,16 +83,6 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             boxView4.setOnTouchListener(this);
         }
 
-        for(int i = 0; i < totalCount; i++){
-            upperViews[i] = findViewById(ItemDatabase.upperContainer[i]);
-            lowerViews[i] = findViewById(ItemDatabase.lowerContainer[i]);
-            upperViews[i].setOnDragListener(this);
-            lowerViews[i].setOnDragListener(this);
-
-            countLower[i] = 0;
-            countUpper[i] = 1;
-        }
-
         /*upperViews[0] = findViewById(R.id.book_cont1);
         upperViews[1] = findViewById(R.id.book_cont2);
         upperViews[2] = findViewById(R.id.book_cont3);
@@ -105,9 +100,6 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
         findViewById(R.id.top_view).setOnDragListener(this);
         findViewById(R.id.bottom_view).setOnDragListener(this);
-
-
-        
 /*
         for (int i = 0; i < totalCount; i++) {
             countLower[i] = 0;
@@ -118,36 +110,45 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     @Override
     public boolean onDrag(View v, DragEvent event) {
         // TODO Auto-generated method stub
-        if (event.getAction() == DragEvent.ACTION_DROP) {
-            //we want to make sure it is dropped only to top and bottom parent view
-            View view = (View) event.getLocalState();
-/*
+        View view = (View) event.getLocalState();
+        if (view.getId() != R.id.middle_btn) {
+            if (event.getAction() == DragEvent.ACTION_DROP) {
+                //we want to make sure it is dropped only to top and bottom parent view
+                //View view = (View) event.getLocalState();
 
-            for (int i = 0; i < totalCount; i++) {
-                // if the view dropping into is a lower view, add to lower view count
-                if (v.getId() == lowerViews[i].getId()) {
-                    ViewGroup source = (ViewGroup) view.getParent();
-                    source.removeView(view);
-                    countLower[i] = 1;
-                    if (source.getId() == upperViews[i].getId()) {
-                        countUpper[i] = 0;
+
+                for (int i = 0; i < totalCount; i++) {
+                    // if the view dropping into is a lower view, add to lower view count
+                    if (v.getId() == lowerViews[i].getId() && countLower[i] < 1) {
+                        ViewGroup source = (ViewGroup) view.getParent();
+                        source.removeView(view);
+                        countLower[i] = 1;
+
+                        LinearLayout target = (LinearLayout) v;
+                        target.addView(view);
+                        if (source.getId() == upperViews[i].getId()) {
+                            countUpper[i] = 0;
+                        }
+                    }
+                    if (v.getId() == upperViews[i].getId() && countUpper[i] < 1) {
+                        ViewGroup source = (ViewGroup) view.getParent();
+                        source.removeView(view);
+
+                        LinearLayout target = (LinearLayout) v;
+                        target.addView(view);
+                        countUpper[i] = 1;
+                        if (source.getId() == lowerViews[i].getId()) {
+                            countLower[i] = 0;
+                        }
                     }
                 }
-                if(v.getId() == upperViews[i].getId()){
-                    ViewGroup source = (ViewGroup) view.getParent();
-                    source.removeView(view);
-                    countUpper[i] = 1;
-                    if (source.getId() == lowerViews[i].getId()) {
-                        countLower[i] = 0;
-                    }
-                }
 
-                LinearLayout target = (LinearLayout) v;
-                target.addView(view);
-            } */
+                //LinearLayout target = (LinearLayout) v;
+                //target.addView(view);
+            }
 
 
-            // Potentially change to case/switch rather than if else statements
+            /*// Potentially change to case/switch rather than if else statements
 
             if (v.getId() == R.id.top_view || (v.getId() == R.id.container_one && countCont1 == 0) || (v.getId() == R.id.container_two && countCont2 == 0) || (v.getId() == R.id.container_three && countCont3 == 0) || (v.getId() == R.id.container_four && countCont4 == 0)) {
 
@@ -158,42 +159,42 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
 
                 if (v.getId() == R.id.container_one) {
-                    countCont1 = 1;
+                    countLower[0] = 1;
                 } else if (v.getId() == R.id.container_two) {
-                    countCont2 = 1;
+                    countLower[1] = 1;
                 } else if (v.getId() == R.id.container_three) {
-                    countCont3 = 1;
+                    countLower[2] = 1;
                 } else if (v.getId() == R.id.container_four) {
-                    countCont4 = 1;
+                    countLower[3] = 1;
                 } else {
                     if (source.getId() == R.id.container_one) {
-                        countCont1--;
+                        countLower[0]--;
                     } else if (source.getId() == R.id.container_two) {
-                        countCont2--;
+                        countLower[1]--;
                     } else if (source.getId() == R.id.container_three) {
-                        countCont3--;
+                        countLower[2]--;
                     } else if (source.getId() == R.id.container_four) {
-                        countCont4--;
+                        countLower[3]--;
                     }
                 }
 
                 Boolean movedOutofTop = checkBoxViewEmpty(source.getId());
                 if (!movedOutofTop) {
                     if (v.getId() == R.id.book_cont1) {
-                        countUpCont1++;
+                        countUpper[0]++;
                     } else if (v.getId() == R.id.book_cont2) {
-                        countUpCont2++;
+                        countUpper[1]++;
                     } else if (v.getId() == R.id.book_cont3) {
-                        countUpCont3++;
+                        countUpper[2]++;
                     } else {
-                        countUpCont4++;
+                        countUpper[3]++;
                     }
                 }
 
 
                 LinearLayout target = (LinearLayout) v;
                 target.addView(view);
-            }
+            }*/
 
             //make view visible as we set visibility to invisible while starting drag
             view.setVisibility(View.VISIBLE);
@@ -221,13 +222,13 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
     private boolean checkBoxViewEmpty(int sourceLL) {
         if (sourceLL == R.id.book_cont1) {
-            countUpCont1--;
+            countUpper[0]--;
         } else if (sourceLL == R.id.book_cont2) {
-            countUpCont2--;
+            countUpper[1]--;
         } else if (sourceLL == R.id.book_cont3) {
-            countUpCont3--;
+            countUpper[2]--;
         } else if (sourceLL == R.id.book_cont4) {
-            countUpCont4--;
+            countUpper[3]--;
         } else {
             // return false;
         }
@@ -263,36 +264,32 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         if (currentBookNo == 0) {
             if (bookCont1 != null && bookCont4 != null) {
                 bookCont4.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if (countUpCont1 > 0) {
+                if (countUpper[0] > 0) {
                     bookCont1.setBackgroundColor(Color.WHITE);
-                    // Toast.makeText(this, (randomNum1 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (currentBookNo == 1) {
             if (bookCont2 != null && bookCont1 != null) {
                 bookCont1.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if (countUpCont2 > 0) {
+                if (countUpper[1] > 0) {
                     bookCont2.setBackgroundColor(Color.WHITE);
-                    //Toast.makeText(this, (randomNum2 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (currentBookNo == 2) {
             if (bookCont2 != null && bookCont3 != null) {
                 bookCont2.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if (countUpCont3 > 0) {
+                if (countUpper[2] > 0) {
                     bookCont3.setBackgroundColor(Color.WHITE);
-                    // Toast.makeText(this, (randomNum3 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
             if (bookCont4 != null && bookCont3 != null) {
                 bookCont3.setBackgroundColor(getResources().getColor(R.color.mcolorDarkGrey));
-                if (countUpCont4 > 0) {
+                if (countUpper[3] > 0) {
                     bookCont4.setBackgroundColor(Color.WHITE);
-                    //Toast.makeText(this, (randomNum4 + ""), Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, (books[currentBookNo].getValue() + ""), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -309,5 +306,11 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         } else {
             currentBookNo++;
         }
+    }
+
+    public void reset(View view){
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }
