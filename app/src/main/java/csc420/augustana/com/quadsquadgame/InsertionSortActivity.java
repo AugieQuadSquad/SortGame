@@ -49,6 +49,8 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             totalCount++;
         }
 
+
+
         ImageView boxView1 = (ImageView) findViewById(R.id.box_view1);
         ImageView boxView2 = (ImageView) findViewById(R.id.box_view2);
         ImageView boxView3 = (ImageView) findViewById(R.id.box_view3);
@@ -56,16 +58,16 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
         //The if statements here remove the "may produce java.lang.NullPointerException" error
         if (boxView1 != null) {
-            boxView1.setOnDragListener(this);
+            boxView1.setOnTouchListener(this);
         }
         if (boxView2 != null) {
-            boxView2.setOnDragListener(this);
+            boxView2.setOnTouchListener(this);
         }
         if (boxView3 != null) {
-            boxView3.setOnDragListener(this);
+            boxView3.setOnTouchListener(this);
         }
         if (boxView4 != null) {
-            boxView4.setOnDragListener(this);
+            boxView4.setOnTouchListener(this);
         }
 
         upperViews[0] = findViewById(R.id.book_cont1);
@@ -73,13 +75,20 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         upperViews[2] = findViewById(R.id.book_cont3);
         upperViews[3] = findViewById(R.id.book_cont4);
 
+        for(int i=0; i<totalCount; i++){
+            upperViews[i].setOnDragListener(this);
+            lowerViews[i].setOnDragListener(this);
+        }
+        findViewById(R.id.top_view).setOnDragListener(this);
+        findViewById(R.id.bottom_view).setOnDragListener(this);
+
         lowerViews[0] = findViewById(R.id.container_one);
         lowerViews[1] = findViewById(R.id.container_two);
         lowerViews[2] = findViewById(R.id.container_three);
         lowerViews[3] = findViewById(R.id.container_four);
         
 
-        for (int i = 0; i < books.length; i++) {
+        for (int i = 0; i < totalCount; i++) {
             countLower[i] = 0;
             countUpper[i] = 1;
         }
@@ -92,19 +101,20 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
             //we want to make sure it is dropped only to top and bottom parent view
             View view = (View) event.getLocalState();
 
-            ViewGroup source = (ViewGroup) view.getParent();
-            source.removeView(view);
 
-
-            for (int i = 0; i < books.length; i++) {
+            for (int i = 0; i < totalCount; i++) {
                 // if the view dropping into is a lower view, add to lower view count
                 if (v.getId() == lowerViews[i].getId()) {
+                    ViewGroup source = (ViewGroup) view.getParent();
+                    source.removeView(view);
                     countLower[i] = 1;
                     if (source.getId() == upperViews[i].getId()) {
                         countUpper[i] = 0;
                     }
                 }
                 if(v.getId() == upperViews[i].getId()){
+                    ViewGroup source = (ViewGroup) view.getParent();
+                    source.removeView(view);
                     countUpper[i] = 1;
                     if (source.getId() == lowerViews[i].getId()) {
                         countLower[i] = 0;
