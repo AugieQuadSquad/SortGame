@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.plattysoft.leonids.ParticleSystem;
+
 import java.util.Arrays;
 
 
@@ -245,13 +247,29 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         int[] array = buildArray();
         int[] solution = ItemDatabase.value;
         Arrays.sort(solution);
+        boolean bool = true;
         for(int i = 0; i < totalCount; i++){
             if(array[i] != solution[i]){
-                displayMessage("You suck");
+                bool = false;
                 break;
             }
         }
-        displayMessage("Winner winner chicken dinner");
+        if(bool){
+           new ParticleSystem(this, 80, R.drawable.confeti2, 10000)
+                    .setSpeedModuleAndAngleRange(0f, 0.3f, 180, 180)
+                    .setRotationSpeed(144)
+                    .setAcceleration(0.00005f, 90)
+                    .emit(findViewById(R.id.emiter_top_right), 8);
+
+            new ParticleSystem(this, 80, R.drawable.confeti3, 10000)
+                    .setSpeedModuleAndAngleRange(0f, 0.3f, 0, 0)
+                    .setRotationSpeed(144)
+                    .setAcceleration(0.00005f, 90)
+                    .emit(findViewById(R.id.emiter_top_left), 8);
+            displayMessage("You Win!");
+        } else {
+            displayMessage("Try Again...");
+        }
     }
 
     public void displayMessage(String string){
