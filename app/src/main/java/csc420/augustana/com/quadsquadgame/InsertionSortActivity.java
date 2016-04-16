@@ -229,15 +229,21 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         for(int i = 0; i < totalCount; i++){
             currentLL = (LinearLayout) lowerViews[i];
             childLL = currentLL.getChildAt(0);
-            int id = childLL.getId();
-            if(id == R.id.box_view1){
-                array[i] = ItemDatabase.value[0];
-            } else if(id == R.id.box_view2){
-                array[i] = ItemDatabase.value[1];
-            } else if(id == R.id.box_view3){
-                array[i] = ItemDatabase.value[2];
-            } else if(id == R.id.box_view4){
-                array[i] = ItemDatabase.value[3];
+            if(childLL != null) {
+                int id = childLL.getId();
+                if (id == R.id.box_view1) {
+                    array[i] = ItemDatabase.value[0];
+                } else if (id == R.id.box_view2) {
+                    array[i] = ItemDatabase.value[1];
+                } else if (id == R.id.box_view3) {
+                    array[i] = ItemDatabase.value[2];
+                } else if (id == R.id.box_view4) {
+                    array[i] = ItemDatabase.value[3];
+                }
+            } else {
+                displayMessage("Entire list must be sorted.");
+                int[] empty = new int[]{-1};
+                return empty;
             }
         }
         return array;
@@ -245,30 +251,32 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
     public void check(View view){
         int[] array = buildArray();
-        int[] solution = ItemDatabase.value;
-        Arrays.sort(solution);
-        boolean bool = true;
-        for(int i = 0; i < totalCount; i++){
-            if(array[i] != solution[i]){
-                bool = false;
-                break;
+        if(array[0] != -1) {
+            int[] solution = ItemDatabase.value;
+            Arrays.sort(solution);
+            boolean bool = true;
+            for (int i = 0; i < totalCount; i++) {
+                if (array[i] != solution[i]) {
+                    bool = false;
+                    break;
+                }
             }
-        }
-        if(bool){
-           new ParticleSystem(this, 80, R.drawable.confeti2, 10000)
-                    .setSpeedModuleAndAngleRange(0f, 0.3f, 180, 180)
-                    .setRotationSpeed(144)
-                    .setAcceleration(0.00005f, 90)
-                    .emit(findViewById(R.id.emiter_top_right), 8);
+            if (bool) {
+                new ParticleSystem(this, 80, R.drawable.confeti2, 10000)
+                        .setSpeedModuleAndAngleRange(0f, 0.3f, 180, 180)
+                        .setRotationSpeed(144)
+                        .setAcceleration(0.00005f, 90)
+                        .emit(findViewById(R.id.emiter_top_right), 8);
 
-            new ParticleSystem(this, 80, R.drawable.confeti3, 10000)
-                    .setSpeedModuleAndAngleRange(0f, 0.3f, 0, 0)
-                    .setRotationSpeed(144)
-                    .setAcceleration(0.00005f, 90)
-                    .emit(findViewById(R.id.emiter_top_left), 8);
-            displayMessage("You Win!");
-        } else {
-            displayMessage("Try Again...");
+                new ParticleSystem(this, 80, R.drawable.confeti3, 10000)
+                        .setSpeedModuleAndAngleRange(0f, 0.3f, 0, 0)
+                        .setRotationSpeed(144)
+                        .setAcceleration(0.00005f, 90)
+                        .emit(findViewById(R.id.emiter_top_left), 8);
+                displayMessage("You Win!");
+            } else {
+                displayMessage("Try Again...");
+            }
         }
     }
 
