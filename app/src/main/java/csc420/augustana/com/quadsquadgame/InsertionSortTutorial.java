@@ -1,9 +1,7 @@
 package csc420.augustana.com.quadsquadgame;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,13 +17,9 @@ public class InsertionSortTutorial extends AppCompatActivity {
     private Button reset;
     private Button test;
     private ImageView image1;
-    private ImageView image2;
-    private ImageView image3;
-    private ImageView image4;
+
     private LinearLayout container1;
-    private LinearLayout container2;
-    private LinearLayout container3;
-    private LinearLayout container4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +31,8 @@ public class InsertionSortTutorial extends AppCompatActivity {
         test = (Button) findViewById(R.id.test);
 
         image1 = (ImageView) findViewById(R.id.box_view1);
-        image2 = (ImageView) findViewById(R.id.box_view2);
-        image3 = (ImageView) findViewById(R.id.box_view3);
-        image4 = (ImageView) findViewById(R.id.box_view4);
 
         container1 = (LinearLayout) findViewById(R.id.container_one);
-        container2 = (LinearLayout) findViewById(R.id.container_two);
-        container3 = (LinearLayout) findViewById(R.id.container_three);
-        container4 = (LinearLayout) findViewById(R.id.container_four);
-
-        /*new MaterialShowcaseView.Builder(this)
-                .setTarget(next)
-                .setDismissText("Got It")
-                .setContentText("Click the next button to scroll through the items to see their values")
-                .show();*/
 
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); //Delay is in milliseconds
