@@ -265,6 +265,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         return array;
     }
 
+
     public void check(View view){
         int[] array = buildArray();
         if(array[0] != -1) {
