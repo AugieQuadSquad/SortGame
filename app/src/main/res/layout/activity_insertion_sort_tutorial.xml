@@ -144,10 +144,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/howTo"
             android:text="Tutorial"
-            android:id="@+id/tutorial"
-            android:onClick="Tutorial"
-            />
+            android:onClick="Tutorial"/>
 
     </LinearLayout>
 

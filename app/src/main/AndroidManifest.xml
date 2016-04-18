@@ -27,7 +27,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyActivity" />
         </activity>
-        <activity android:name=".InsertionSortActivity"></activity>
+        <activity android:name=".InsertionSortActivity" />
+        <activity android:name=".InsertionSortTutorial"></activity>
     </application>
 
 </manifest>
