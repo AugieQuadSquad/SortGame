@@ -28,7 +28,6 @@
                 android:value=".MyActivity" />
         </activity>
         <activity android:name=".InsertionSortActivity" />
-        <activity android:name=".InsertionSortTutorial"></activity>
     </application>
 
 </manifest>

@@ -38,13 +38,9 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     private Button reset;
     private Button test;
     private ImageView image1;
-    private ImageView image2;
-    private ImageView image3;
-    private ImageView image4;
+
     private LinearLayout container1;
-    private LinearLayout container2;
-    private LinearLayout container3;
-    private LinearLayout container4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +53,8 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
         test = (Button) findViewById(R.id.test);
 
         image1 = (ImageView) findViewById(R.id.box_view1);
-        image2 = (ImageView) findViewById(R.id.box_view2);
-        image3 = (ImageView) findViewById(R.id.box_view3);
-        image4 = (ImageView) findViewById(R.id.box_view4);
 
         container1 = (LinearLayout) findViewById(R.id.container_one);
-        container2 = (LinearLayout) findViewById(R.id.container_two);
-        container3 = (LinearLayout) findViewById(R.id.container_three);
-        container4 = (LinearLayout) findViewById(R.id.container_four);
-
 
         for (int i = 0; i < ItemDatabase.value.length; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i], ItemDatabase.upperContainer[i]);
@@ -279,7 +268,10 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
     public void check(View view){
         int[] array = buildArray();
         if(array[0] != -1) {
-            int[] solution = ItemDatabase.value;
+            int[] solution = new int[totalCount];
+            for(int i = 0; i < totalCount; i++){
+                solution[i] = ItemDatabase.value[i];
+            }
             Arrays.sort(solution);
             boolean bool = true;
             for (int i = 0; i < totalCount; i++) {
@@ -303,6 +295,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
                 displayMessage("You Win!");
             } else {
                 displayMessage("Try Again...");
+
             }
         }
     }
@@ -319,13 +312,13 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(next, "Click the next button to scroll through the items to see their values", "Got it");
+        sequence.addSequenceItem(next, "Click the next button to scroll through the items to see their values.", "Got it");
 
-        sequence.addSequenceItem(image1, "Drag the items to the bottom", "Got It");
+        sequence.addSequenceItem(image1, "Drag the items to the bottom...", "Got It");
 
-        sequence.addSequenceItem(container1, "In smallest to largest order, based on the values", "Got It");
+        sequence.addSequenceItem(container1, "In smallest to largest order, based on the values.", "Got It");
 
-        sequence.addSequenceItem(reset, "If you mess up, don't worry! Just reset the game and try again", "Got It");
+        sequence.addSequenceItem(reset, "If you mess up, don't worry! Just reset the game and try again.", "Got It");
 
         sequence.addSequenceItem(test, "If you think you've got it, find out with the test button!", "Close");
 
