@@ -5,7 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="mcolorDarkGrey">@android:color/darker_gray</color>
     <color name="blue">#FF1504FF</color>
-
     <color name="purple">#FF7F0081</color>
     <color name="black">#FF000000</color>
     <color name="pink">#FFFF83F5</color>
