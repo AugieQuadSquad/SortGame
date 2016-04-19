@@ -56,7 +56,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
         container1 = (LinearLayout) findViewById(R.id.container_one);
 
-        for (int i = 0; i < ItemDatabase.value.length; i++) {
+        for (int i = 0; i < 4; i++) {
             BookItem book = new BookItem(ItemDatabase.value[i], ItemDatabase.id[i], ItemDatabase.upperContainer[i]);
             book.setValue(ItemDatabase.value[i]);
             books[i] = book;

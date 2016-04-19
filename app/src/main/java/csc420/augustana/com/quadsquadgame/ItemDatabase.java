@@ -17,19 +17,20 @@ public class ItemDatabase {
     static int randomNum2 = rand.nextInt(50) + 1;
     static int randomNum3 = rand.nextInt(50) + 1;
     static int randomNum4 = rand.nextInt(50) + 1;
+    static int randomNum5 = rand.nextInt(50) + 1;
+    static int randomNum6 = rand.nextInt(50) + 1;
+    static int randomNum7 = rand.nextInt(50) + 1;
+    static int randomNum8 = rand.nextInt(50) + 1;
+
 
 
     // array of values associated with each item in order to sort
     public static int value[] = {
-            randomNum1, randomNum2, randomNum3, randomNum4
+            randomNum1, randomNum2, randomNum3, randomNum4, randomNum5, randomNum6, randomNum7, randomNum8
     };
 
     // array of the item ids
     public static int id[] = {
-            /*R.drawable.box_one,
-            R.drawable.box_two,
-            R.drawable.box_three,
-            R.drawable.box_four*/
             R.id.box_view1,
             R.id.box_view2,
             R.id.box_view3,
@@ -43,6 +44,10 @@ public class ItemDatabase {
         randomNum2 = rand.nextInt(50) + 1;
         randomNum3 = rand.nextInt(50) + 1;
         randomNum4 = rand.nextInt(50) + 1;
+        randomNum5 = rand.nextInt(50) + 1;
+        randomNum6 = rand.nextInt(50) + 1;
+        randomNum7 = rand.nextInt(50) + 1;
+        randomNum8 = rand.nextInt(50) + 1;
     }
 
     public static int upperContainer[] = {
