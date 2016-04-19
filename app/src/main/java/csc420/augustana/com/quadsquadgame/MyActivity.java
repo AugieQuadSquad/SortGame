@@ -34,7 +34,7 @@ public class MyActivity extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener2 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MyActivity.this, TutorialOption.class);
+            Intent tutorialOption = new Intent(MyActivity.this, BubbleSort.class);
             tutorialOption.putExtra("button", "2");
             startActivity(tutorialOption);
         }

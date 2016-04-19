@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="csc420.augustana.com.quadsquadgame.BubbleSort">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="8">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image1"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_one"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image2"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_two"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image3"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_three"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image4"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_four"
+            android:layout_weight="1"/>
+
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image5"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_five"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image6"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_six"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image7"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_seven"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="65dp"
+            android:id="@+id/image8"
+            android:layout_margin="10dp"
+            android:background="@drawable/box_eight"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:text="text"
+            android:layout_margin="10dp"
+            android:textSize="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:textSize="50dp"
+            android:text="text"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stay"
+            android:id="@+id/stay"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Swap"
+            android:id="@+id/swap"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

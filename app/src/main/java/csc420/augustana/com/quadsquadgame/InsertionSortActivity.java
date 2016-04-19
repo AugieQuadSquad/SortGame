@@ -296,7 +296,6 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
                 displayMessage("You Win!");
             } else {
                 displayMessage("Try Again...");
-
             }
         }
     }

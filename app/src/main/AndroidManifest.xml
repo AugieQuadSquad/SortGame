@@ -10,7 +10,8 @@
         android:theme="@style/AppTheme">
 
         <!-- MAIN ACTIVITY CLASS -->
-        <activity android:name=".MyActivity">
+        <activity android:name=".MyActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,16 +19,13 @@
             </intent-filter>
         </activity>
 
-        <!-- TUTORIAL OPTION ACTIVITY CLASS -->
-        <activity
-            android:name=".TutorialOption"
-            android:label="@string/app_name"
-            android:parentActivityName=".MyActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyActivity" />
-        </activity>
-        <activity android:name=".InsertionSortActivity" />
+        <!-- Human Sort Activity -->
+        <activity android:name=".InsertionSortActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- Bubble Sort Activity -->
+        <activity android:name=".BubbleSort"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

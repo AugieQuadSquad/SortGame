@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Quad Squad Game</string>
     <string name="title">Learn how to sort like a computer scientist!</string>
-    <string name="sort1">Insertion Sort</string>
-    <string name="sort2">Quick Sort</string>
-    <string name="sort3">Bubble Sort</string>
+    <string name="sort1">Human Sort</string>
+    <string name="sort2">Bubble Sort</string>
+    <string name="sort3">Mystery Sort</string>
     <string name="choose">Choose a type of sort:</string>
 </resources>
