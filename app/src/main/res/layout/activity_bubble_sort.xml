@@ -129,6 +129,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/button2"
             android:gravity="center"
+            android:onClick="testSwap"
             android:text="Tutorial"/>
 
     </LinearLayout>
