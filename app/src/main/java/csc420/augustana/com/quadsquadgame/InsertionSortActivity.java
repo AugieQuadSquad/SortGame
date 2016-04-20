@@ -127,7 +127,7 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
                         if (source.getId() == lowerViews[i].getId()) {
                             countLower[i] = 0;
                         }
-                    }
+                    } 
                 }
             }
 
