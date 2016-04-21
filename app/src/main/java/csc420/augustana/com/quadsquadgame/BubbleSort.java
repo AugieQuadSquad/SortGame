@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.view.View;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -17,12 +22,16 @@ public class BubbleSort extends AppCompatActivity {
     public static TextView[] items = new TextView[8];
     TextView clicked1st = null;
     Animation animAlpha;
+    int totalCount;
+    int moveCount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble_sort);
         ItemDatabase.setValues();
+        totalCount = 0;
 
 
         TextView item1 = (TextView) findViewById(R.id.item1);
@@ -49,10 +58,11 @@ public class BubbleSort extends AppCompatActivity {
         TextView item8 = (TextView) findViewById(R.id.item8);
         items[7] = item8;
         item8.setTag(R.drawable.box_eight);
+        totalCount = 8;
 
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
 
-        for(int i = 0; i < items.length; i++){
+        for (int i = 0; i < items.length; i++) {
             items[i].setText(ItemDatabase.value[i] + "");
             items[i].setOnClickListener(myClickListener);
         }
@@ -75,21 +85,54 @@ public class BubbleSort extends AppCompatActivity {
                 .playOn(item2TV);
     }
 
-    public static void testSwap(View view){
-        swap(items[0], items[1]);
+    public void testSwap(View view) {
+        Pairs[] pairs = bubbleSort();
+        for (int i = 0; i < moveCount; i++) {
+            swap(items[pairs[i].getFirst()], items[pairs[i].getSecond()]);
+        }
     }
 
     private View.OnClickListener myClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(clicked1st == null){
+            if (clicked1st == null) {
                 clicked1st = (TextView) v;
                 v.startAnimation(animAlpha);
-            } else{
+            } else {
                 swap(clicked1st, (TextView) v);
                 clicked1st = null;
             }
         }
     };
+
+    public Pairs[] bubbleSort() {
+        Pairs[] pairsArray = new Pairs[30];
+        int pairsCount = 0;
+        int[] tempArray = new int[totalCount];
+        for (int i = 0; i < tempArray.length; i++) {
+            tempArray[i] = ItemDatabase.value[i];
+        }
+        boolean swapped = true;
+        while (swapped) {
+            swapped = false;
+            for (int i = 0; i < tempArray.length - 1; i++) {
+                if (tempArray[i] > tempArray[i + 1]) {
+                    Pairs tempPair = new Pairs(i, i + 1);
+                    pairsArray[pairsCount] = tempPair;
+                    pairsCount++;
+                    int tempInt = tempArray[i];
+                    tempArray[i] = tempArray[i + 1];
+                    tempArray[i + 1] = tempInt;
+                    swapped = true;
+                    moveCount++;
+                }
+            }
+        }
+        return pairsArray;
+    }
+
+    public void displayMessage(String string) {
+        Toast.makeText(this, (string), Toast.LENGTH_SHORT).show();
+    }
 
 }
