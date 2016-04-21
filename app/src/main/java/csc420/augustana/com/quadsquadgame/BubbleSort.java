@@ -24,6 +24,8 @@ public class BubbleSort extends AppCompatActivity {
     Animation animAlpha;
     int totalCount;
     int moveCount;
+    int currentMove;
+    Pairs[] pairs;
 
 
     @Override
@@ -32,6 +34,7 @@ public class BubbleSort extends AppCompatActivity {
         setContentView(R.layout.activity_bubble_sort);
         ItemDatabase.setValues();
         totalCount = 0;
+        currentMove = 0;
 
 
         TextView item1 = (TextView) findViewById(R.id.item1);
@@ -66,6 +69,8 @@ public class BubbleSort extends AppCompatActivity {
             items[i].setText(ItemDatabase.value[i] + "");
             items[i].setOnClickListener(myClickListener);
         }
+        pairs = bubbleSort();
+
     }
 
     private static void swap(TextView item1TV, TextView item2TV) {
@@ -86,10 +91,17 @@ public class BubbleSort extends AppCompatActivity {
     }
 
     public void testSwap(View view) {
-        Pairs[] pairs = bubbleSort();
-        for (int i = 0; i < moveCount; i++) {
-            swap(items[pairs[i].getFirst()], items[pairs[i].getSecond()]);
+        int[] current = buildArray();
+        if(isSorted(current)){
+            displayMessage("You Win!");
+        } else{
+            displayMessage("Keep Trying!");
         }
+    }
+
+    public void hint(View view){
+        swap(items[pairs[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
+        currentMove++;
     }
 
     private View.OnClickListener myClickListener = new View.OnClickListener() {
@@ -99,8 +111,15 @@ public class BubbleSort extends AppCompatActivity {
                 clicked1st = (TextView) v;
                 v.startAnimation(animAlpha);
             } else {
-                swap(clicked1st, (TextView) v);
-                clicked1st = null;
+                if(isNextMove(clicked1st, (TextView) v)){
+                    swap(clicked1st, (TextView) v);
+                    clicked1st = null;
+                    currentMove++;
+                } else {
+                    displayMessage("Wrong move");
+                    clicked1st = null;
+                }
+
             }
 
         }
@@ -134,6 +153,38 @@ public class BubbleSort extends AppCompatActivity {
 
     public void displayMessage(String string) {
         Toast.makeText(this, (string), Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isSorted(int[] outsideArray){
+        int[] temp = new int[totalCount];
+        for(int i = 0; i < temp.length; i++){
+            temp[i] = ItemDatabase.value[i];
+        }
+        Arrays.sort(temp);
+        for(int i = 0; i < totalCount; i++){
+            if(temp[i] != outsideArray[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int[] buildArray(){
+        int[] array = new int[totalCount];
+        for(int i = 0; i < totalCount; i++){
+            array[i] = Integer.parseInt(items[i].getText().toString());
+        }
+        return array;
+    }
+
+    public boolean isNextMove(TextView tv1, TextView tv2){
+        int indexOf1 = Arrays.asList(items).indexOf(tv1);
+        int indexOf2 = Arrays.asList(items).indexOf(tv2);
+        if(indexOf1 == pairs[currentMove].getFirst() && indexOf2 == pairs[currentMove].getSecond()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

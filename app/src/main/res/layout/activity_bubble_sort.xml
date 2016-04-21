@@ -120,8 +120,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:gravity="center"
+            android:text="hint"
+            android:onClick="hint"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/button1"
             android:gravity="center"
+            android:onClick="testSwap"
             android:text="Test"/>
 
         <Button
@@ -129,7 +138,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/button2"
             android:gravity="center"
-            android:onClick="testSwap"
             android:text="Tutorial"/>
 
     </LinearLayout>
