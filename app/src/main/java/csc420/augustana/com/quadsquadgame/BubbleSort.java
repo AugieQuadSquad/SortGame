@@ -102,6 +102,7 @@ public class BubbleSort extends AppCompatActivity {
                 swap(clicked1st, (TextView) v);
                 clicked1st = null;
             }
+
         }
     };
 
