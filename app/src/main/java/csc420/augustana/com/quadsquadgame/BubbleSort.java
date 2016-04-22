@@ -1,17 +1,18 @@
 package csc420.augustana.com.quadsquadgame;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.CountDownTimer;
 
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.view.View;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class BubbleSort extends AppCompatActivity {
     Button hint;
     Button test;
     Button reset;
-
+    TextView myTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,29 @@ public class BubbleSort extends AppCompatActivity {
         test = (Button) findViewById(R.id.test);
         reset = (Button) findViewById(R.id.resetButton);
 
+        myTimer = (TextView) findViewById(R.id.timer);
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this)
+                .setTitle("Game Over!")
+                .setMessage("This is where your score is going to go")
+                .setCancelable(false)
+                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent tutorialOption = new Intent(BubbleSort.this, BubbleSort.class);
+                        tutorialOption.putExtra("button", "2");
+                        startActivity(tutorialOption);
+                    }
+                })
+                .setNegativeButton("Quit", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+                        Intent tutorialOption = new Intent(BubbleSort.this, MyActivity.class);
+                        startActivity(tutorialOption);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert);
+
+        final AlertDialog alert1 = builder1.create();
 
         item1 = (TextView) findViewById(R.id.item1);
         items[0] = item1;
@@ -96,7 +120,23 @@ public class BubbleSort extends AppCompatActivity {
             pairs = bubbleSort();
         }
 
+        new CountDownTimer(5000, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                myTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                myTimer.setText("done!");
+                if(isSorted(buildArray())){
+                    displayMessage("You Win!");
+                    alert1.show();
+                } else {
+                    displayMessage("You ran out of time!");
+                    alert1.show();
+                }
+            }
+        }.start();
     }
 
     private static void swap(TextView item1TV, TextView item2TV) {
@@ -126,8 +166,12 @@ public class BubbleSort extends AppCompatActivity {
     }
 
     public void hint(View view){
-        swap(items[pairs[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
-        currentMove++;
+        if(!isSorted(buildArray())){
+            swap(items[pairs[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
+            currentMove++;
+        }else{
+            displayMessage("No more moves!");
+        }
     }
 
     private View.OnClickListener myClickListener = new View.OnClickListener() {
@@ -135,14 +179,20 @@ public class BubbleSort extends AppCompatActivity {
         public void onClick(View v) {
             if (clicked1st == null) {
                 clicked1st = (TextView) v;
+                clicked1st.setTextSize(45);
                 v.startAnimation(animAlpha);
             } else {
-                if(isNextMove(clicked1st, (TextView) v)){
+                if(clicked1st.equals(v)){
+                    clicked1st.setTextSize(30);
+                    clicked1st = null;
+                } else if(isNextMove(clicked1st, (TextView) v)){
                     swap(clicked1st, (TextView) v);
+                    clicked1st.setTextSize(30);
                     clicked1st = null;
                     currentMove++;
                 } else {
                     displayMessage("Wrong move");
+                    clicked1st.setTextSize(30);
                     clicked1st = null;
                 }
 
