@@ -138,6 +138,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tutorial"
             android:gravity="center"
+            android:onClick="Tutorial"
             android:text="Tutorial"/>
 
         <Button

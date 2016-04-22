@@ -227,15 +227,15 @@ public class BubbleSort extends AppCompatActivity {
 
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(item1, "Click the next button to scroll through the items to see their values.", "Next");
+        sequence.addSequenceItem(item1, "Tap the first item that you would like to switch", "Next");
 
-        sequence.addSequenceItem(item2, "Drag the items to the bottom...", "Next");
+        sequence.addSequenceItem(item2, "and switch it by tapping the second item.", "Next");
 
-        sequence.addSequenceItem(hint, "In smallest to largest order, based on the values.", "Next");
+        sequence.addSequenceItem(hint, "If you get stuck, use a hint! It will complete the next move for you.", "Next");
 
-        sequence.addSequenceItem(test, "If you mess up, don't worry! Just reset the game and try again.", "Next");
+        sequence.addSequenceItem(reset, "If you mess up, don't worry! Just reset the game and try again.", "Next");
 
-        sequence.addSequenceItem(reset, "If you think you've got it, find out with the test button!", "Close");
+        sequence.addSequenceItem(test, "If you think you've got it, find out with the test button!", "Close");
 
         sequence.start();
     }
