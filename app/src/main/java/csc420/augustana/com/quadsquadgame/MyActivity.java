@@ -15,9 +15,9 @@ public class MyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
+        Button button1 = (Button) findViewById(R.id.test);
+        Button button2 = (Button) findViewById(R.id.tutorial);
+        Button button3 = (Button) findViewById(R.id.hint);
 
         button1.setOnClickListener(buttonListener1);
         button2.setOnClickListener(buttonListener2);

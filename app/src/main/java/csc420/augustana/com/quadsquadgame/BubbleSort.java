@@ -1,10 +1,12 @@
 package csc420.augustana.com.quadsquadgame;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -17,6 +19,9 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 public class BubbleSort extends AppCompatActivity {
 
     public static TextView[] items = new TextView[8];
@@ -26,6 +31,19 @@ public class BubbleSort extends AppCompatActivity {
     int moveCount;
     int currentMove;
     Pairs[] pairs;
+    int currentGame;
+
+    TextView item1;
+    TextView item2;
+    TextView item3;
+    TextView item4;
+    TextView item5;
+    TextView item6;
+    TextView item7;
+    TextView item8;
+    Button hint;
+    Button test;
+    Button reset;
 
 
     @Override
@@ -35,30 +53,35 @@ public class BubbleSort extends AppCompatActivity {
         ItemDatabase.setValues();
         totalCount = 0;
         currentMove = 0;
+        currentGame = 0;
+
+        hint = (Button) findViewById(R.id.hint);
+        test = (Button) findViewById(R.id.test);
+        reset = (Button) findViewById(R.id.resetButton);
 
 
-        TextView item1 = (TextView) findViewById(R.id.item1);
+        item1 = (TextView) findViewById(R.id.item1);
         items[0] = item1;
         item1.setTag(R.drawable.box_one);
-        TextView item2 = (TextView) findViewById(R.id.item2);
+        item2 = (TextView) findViewById(R.id.item2);
         items[1] = item2;
         item2.setTag(R.drawable.box_two);
-        TextView item3 = (TextView) findViewById(R.id.item3);
+        item3 = (TextView) findViewById(R.id.item3);
         items[2] = item3;
         item3.setTag(R.drawable.box_three);
-        TextView item4 = (TextView) findViewById(R.id.item4);
+        item4 = (TextView) findViewById(R.id.item4);
         items[3] = item4;
         item4.setTag(R.drawable.box_four);
-        TextView item5 = (TextView) findViewById(R.id.item5);
+        item5 = (TextView) findViewById(R.id.item5);
         items[4] = item5;
         item5.setTag(R.drawable.box_five);
-        TextView item6 = (TextView) findViewById(R.id.item6);
+        item6 = (TextView) findViewById(R.id.item6);
         items[5] = item6;
         item6.setTag(R.drawable.box_six);
-        TextView item7 = (TextView) findViewById(R.id.item7);
+        item7 = (TextView) findViewById(R.id.item7);
         items[6] = item7;
         item7.setTag(R.drawable.box_seven);
-        TextView item8 = (TextView) findViewById(R.id.item8);
+        item8 = (TextView) findViewById(R.id.item8);
         items[7] = item8;
         item8.setTag(R.drawable.box_eight);
         totalCount = 8;
@@ -69,7 +92,10 @@ public class BubbleSort extends AppCompatActivity {
             items[i].setText(ItemDatabase.value[i] + "");
             items[i].setOnClickListener(myClickListener);
         }
-        pairs = bubbleSort();
+        if(currentGame == 0){
+            pairs = bubbleSort();
+        }
+
 
     }
 
@@ -185,6 +211,33 @@ public class BubbleSort extends AppCompatActivity {
         }else{
             return false;
         }
+    }
+
+    public void reset(View view){
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    public void Tutorial(View view){
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); //Delay is in milliseconds
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(item1, "Click the next button to scroll through the items to see their values.", "Next");
+
+        sequence.addSequenceItem(item2, "Drag the items to the bottom...", "Next");
+
+        sequence.addSequenceItem(hint, "In smallest to largest order, based on the values.", "Next");
+
+        sequence.addSequenceItem(test, "If you mess up, don't worry! Just reset the game and try again.", "Next");
+
+        sequence.addSequenceItem(reset, "If you think you've got it, find out with the test button!", "Close");
+
+        sequence.start();
     }
 
 }

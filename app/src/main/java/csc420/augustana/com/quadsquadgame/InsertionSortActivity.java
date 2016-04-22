@@ -312,13 +312,13 @@ public class InsertionSortActivity extends AppCompatActivity implements View.OnT
 
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(next, "Click the next button to scroll through the items to see their values.", "Got it");
+        sequence.addSequenceItem(next, "Click the next button to scroll through the items to see their values.", "Next");
 
-        sequence.addSequenceItem(image1, "Drag the items to the bottom...", "Got It");
+        sequence.addSequenceItem(image1, "Drag the items to the bottom...", "Next");
 
-        sequence.addSequenceItem(container1, "In smallest to largest order, based on the values.", "Got It");
+        sequence.addSequenceItem(container1, "In smallest to largest order, based on the values.", "Next");
 
-        sequence.addSequenceItem(reset, "If you mess up, don't worry! Just reset the game and try again.", "Got It");
+        sequence.addSequenceItem(reset, "If you mess up, don't worry! Just reset the game and try again.", "Next");
 
         sequence.addSequenceItem(test, "If you think you've got it, find out with the test button!", "Close");
 

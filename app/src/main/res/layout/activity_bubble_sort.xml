@@ -120,7 +120,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/hint"
             android:gravity="center"
             android:text="hint"
             android:onClick="hint"/>
@@ -128,7 +128,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button1"
+            android:id="@+id/test"
             android:gravity="center"
             android:onClick="testSwap"
             android:text="Test"/>
@@ -136,9 +136,17 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
+            android:id="@+id/tutorial"
             android:gravity="center"
             android:text="Tutorial"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/resetButton"
+            android:gravity="center"
+            android:onClick="reset"
+            android:text="Reset"/>
 
     </LinearLayout>
 
