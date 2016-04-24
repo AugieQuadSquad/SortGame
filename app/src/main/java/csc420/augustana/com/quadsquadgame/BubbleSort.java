@@ -44,6 +44,8 @@ public class BubbleSort extends AppCompatActivity {
     int totalScore;
     int hintWeight = 4;
     int testWeight = 2;
+    int wrongMoves;
+    int wrongMovesWeight = 1;
 
     TextView item1;
     TextView item2;
@@ -147,9 +149,7 @@ public class BubbleSort extends AppCompatActivity {
                 myTimer.setText("done!");
                 if(isSorted(buildArray())){
                     secondsRemaining = 0+"";
-                    alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
-                            + "\nTotal Score: " + getTotalScore());
-                    alert1.show();
+
                 } else {
                     alert1.setMessage("You ran out of time!");
                     alert1.show();
@@ -179,9 +179,7 @@ public class BubbleSort extends AppCompatActivity {
         int[] current = buildArray();
         if(isSorted(current)){
             isCanceled = true;
-            alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
-             + "\nTotal Score: " + getTotalScore());
-            alert1.show();
+            getTotalScore();
         } else{
             falseTests++;
             displayMessage("Keep Trying!");
@@ -189,10 +187,13 @@ public class BubbleSort extends AppCompatActivity {
     }
 
     public int getTotalScore(){
-        totalScore = Integer.parseInt(secondsRemaining) - hintWeight*hintCount - testWeight*falseTests;
+        totalScore = Integer.parseInt(secondsRemaining) - hintWeight*hintCount - testWeight*falseTests - wrongMovesWeight*wrongMoves;
         if(totalScore<0){
             totalScore = 0;
         }
+        alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
+                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore);
+        alert1.show();
         return totalScore;
     }
 
@@ -224,6 +225,7 @@ public class BubbleSort extends AppCompatActivity {
                     clicked1st = null;
                     currentMove++;
                 } else {
+                    wrongMoves++;
                     displayMessage("Wrong move");
                     clicked1st.setTextSize(30);
                     clicked1st = null;
