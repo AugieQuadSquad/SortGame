@@ -1,5 +1,6 @@
 package csc420.augustana.com.quadsquadgame;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.os.CountDownTimer;
+import android.view.ViewGroup.LayoutParams;
 
 import java.util.Arrays;
 
@@ -33,6 +36,14 @@ public class BubbleSort extends AppCompatActivity {
     int currentMove;
     Pairs[] pairs;
     int currentGame;
+    String secondsRemaining;
+    boolean isCanceled;
+    AlertDialog alert1;
+    int hintCount;
+    int falseTests;
+    int totalScore;
+    int hintWeight = 4;
+    int testWeight = 2;
 
     TextView item1;
     TextView item2;
@@ -55,6 +66,7 @@ public class BubbleSort extends AppCompatActivity {
         totalCount = 0;
         currentMove = 0;
         currentGame = 0;
+        isCanceled = false;
 
         hint = (Button) findViewById(R.id.hint);
         test = (Button) findViewById(R.id.test);
@@ -82,7 +94,7 @@ public class BubbleSort extends AppCompatActivity {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert);
 
-        final AlertDialog alert1 = builder1.create();
+        alert1 = builder1.create();
 
         item1 = (TextView) findViewById(R.id.item1);
         items[0] = item1;
@@ -120,19 +132,26 @@ public class BubbleSort extends AppCompatActivity {
             pairs = bubbleSort();
         }
 
-        new CountDownTimer(5000, 1000) {
+        new CountDownTimer(50000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                myTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                if(!isCanceled) {
+                    myTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                    secondsRemaining = "" + millisUntilFinished / 1000;
+                } else{
+                    cancel();
+                }
             }
 
             public void onFinish() {
                 myTimer.setText("done!");
                 if(isSorted(buildArray())){
-                    displayMessage("You Win!");
+                    secondsRemaining = 0+"";
+                    alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
+                            + "\nTotal Score: " + getTotalScore());
                     alert1.show();
                 } else {
-                    displayMessage("You ran out of time!");
+                    alert1.setMessage("You ran out of time!");
                     alert1.show();
                 }
             }
@@ -159,17 +178,31 @@ public class BubbleSort extends AppCompatActivity {
     public void testSwap(View view) {
         int[] current = buildArray();
         if(isSorted(current)){
-            displayMessage("You Win!");
+            isCanceled = true;
+            alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
+             + "\nTotal Score: " + getTotalScore());
+            alert1.show();
         } else{
+            falseTests++;
             displayMessage("Keep Trying!");
         }
     }
 
+    public int getTotalScore(){
+        totalScore = Integer.parseInt(secondsRemaining) - hintWeight*hintCount - testWeight*falseTests;
+        if(totalScore<0){
+            totalScore = 0;
+        }
+        return totalScore;
+    }
+
     public void hint(View view){
         if(!isSorted(buildArray())){
+            hintCount++;
             swap(items[pairs[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
             currentMove++;
         }else{
+            hintCount++;
             displayMessage("No more moves!");
         }
     }
