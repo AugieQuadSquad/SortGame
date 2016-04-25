@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -60,6 +62,11 @@ public class BubbleSort extends AppCompatActivity {
     Button reset;
     TextView myTimer;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    String prefName = "highScore";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +76,12 @@ public class BubbleSort extends AppCompatActivity {
         currentMove = 0;
         currentGame = 0;
         isCanceled = false;
+
+        // added by Catherine 4/24/2016
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+/*        editor.putInt(prefName, 0);
+        editor.apply();*/
 
         hint = (Button) findViewById(R.id.hint);
         test = (Button) findViewById(R.id.test);
@@ -191,8 +204,17 @@ public class BubbleSort extends AppCompatActivity {
         if(totalScore<0){
             totalScore = 0;
         }
+
+        // code added by Catherine for internal storage
+        // code adopted from http://stackoverflow.com/questions/23024831/android-shared-preferences-example
+        if(pref.getInt(prefName, 0) < totalScore){
+            editor.putInt(prefName, totalScore);
+            editor.apply();
+            displayMessage("Congratulations! New High Score!");
+        }
+
         alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
-                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore);
+                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore +"\nHigh Score: " + pref.getInt(prefName, 0));
         alert1.show();
         return totalScore;
     }
