@@ -57,4 +57,8 @@ public class ItemDatabase {
     public static int lowerContainer[] = {
             R.id.container_one, R.id.container_two, R.id.container_three, R.id.container_four
     };
+
+    public static String BubbleScore[] = {
+            "BubbleScore1", "BubbleScore2", "BubbleScore3", "BubbleScore4", "BubbleScore5"
+    };
 }

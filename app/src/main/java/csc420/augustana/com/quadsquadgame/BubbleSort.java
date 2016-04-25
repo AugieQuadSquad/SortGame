@@ -1,21 +1,16 @@
 package csc420.augustana.com.quadsquadgame;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.os.CountDownTimer;
-import android.view.ViewGroup.LayoutParams;
 
 import java.util.Arrays;
 
@@ -44,7 +39,7 @@ public class BubbleSort extends AppCompatActivity {
     int hintCount;
     int falseTests;
     int totalScore;
-    int hintWeight = 4;
+    int hintWeight = 0;
     int testWeight = 2;
     int wrongMoves;
     int wrongMovesWeight = 1;
@@ -57,6 +52,11 @@ public class BubbleSort extends AppCompatActivity {
     TextView item6;
     TextView item7;
     TextView item8;
+    TextView highscore1;
+    TextView highscore2;
+    TextView highscore3;
+    TextView highscore4;
+    TextView highscore5;
     Button hint;
     Button test;
     Button reset;
@@ -64,8 +64,8 @@ public class BubbleSort extends AppCompatActivity {
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    String prefName = "highScore";
-
+    String[] BubbleScore;
+    int[] BubbleScoresValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +77,18 @@ public class BubbleSort extends AppCompatActivity {
         currentGame = 0;
         isCanceled = false;
 
+        BubbleScoresValues = new int[5];
+        BubbleScore = new String[5];
+
+        for(int i = 0; i < 5; i++){
+            BubbleScore[i] = ItemDatabase.BubbleScore[i];
+        }
+
+
         // added by Catherine 4/24/2016
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-/*        editor.putInt(prefName, 0);
+/*        editor.putInt(BubbleScore1, 0);
         editor.apply();*/
 
         hint = (Button) findViewById(R.id.hint);
@@ -89,7 +97,7 @@ public class BubbleSort extends AppCompatActivity {
 
         myTimer = (TextView) findViewById(R.id.timer);
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this)
+        /*AlertDialog.Builder builder1 = new AlertDialog.Builder(this)
                 .setTitle("Game Over!")
                 .setMessage("This is where your score is going to go")
                 .setCancelable(false)
@@ -109,7 +117,7 @@ public class BubbleSort extends AppCompatActivity {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert);
 
-        alert1 = builder1.create();
+        alert1 = builder1.create();*/
 
         item1 = (TextView) findViewById(R.id.item1);
         items[0] = item1;
@@ -162,7 +170,6 @@ public class BubbleSort extends AppCompatActivity {
                 myTimer.setText("done!");
                 if(isSorted(buildArray())){
                     secondsRemaining = 0+"";
-
                 } else {
                     alert1.setMessage("You ran out of time!");
                     alert1.show();
@@ -204,18 +211,29 @@ public class BubbleSort extends AppCompatActivity {
         if(totalScore<0){
             totalScore = 0;
         }
+        boolean bool = false;
 
         // code added by Catherine for internal storage
         // code adopted from http://stackoverflow.com/questions/23024831/android-shared-preferences-example
-        if(pref.getInt(prefName, 0) < totalScore){
-            editor.putInt(prefName, totalScore);
-            editor.apply();
-            displayMessage("Congratulations! New High Score!");
+        for(int i = 0; i < 5; i++){
+            if(pref.getInt(BubbleScore[i], 0) < totalScore&& bool == false){
+                for(int j = 4; j > i; j--){
+                    editor.putInt(BubbleScore[j], BubbleScoresValues[j-1]);
+                }
+                editor.putInt(BubbleScore[i], totalScore);
+                displayMessage("Congratulations! New High Score!");
+                BubbleScoresValues[4] = totalScore;
+                Arrays.sort(BubbleScoresValues);
+                bool = true;
+            }
         }
+        editor.apply();
 
-        alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
-                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore +"\nHigh Score: " + pref.getInt(prefName, 0));
-        alert1.show();
+
+        /*alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
+                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore +"\nHigh Score: " + pref.getInt(BubbleScore1, 0));
+        alert1.show();*/
+        showDialog();
         return totalScore;
     }
 
@@ -347,4 +365,64 @@ public class BubbleSort extends AppCompatActivity {
         sequence.start();
     }
 
+    public void showDialog(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final TextView timeRemaining = (TextView) dialogView.findViewById(R.id.timeRemaining);
+        final TextView hintsUsed = (TextView) dialogView.findViewById(R.id.hintsUsed);
+        final TextView incorrectTests = (TextView) dialogView.findViewById(R.id.incorrectTests);
+        final TextView wrongMove = (TextView) dialogView.findViewById(R.id.wrongMoves);
+        final TextView totalScores = (TextView) dialogView.findViewById(R.id.totalScore);
+
+        timeRemaining.setText("Time Remaining: " + secondsRemaining);
+        hintsUsed.setText("Number of Hints used: " + hintCount);
+        incorrectTests.setText("Number of incorrect tests: " + falseTests);
+        wrongMove.setText("Number of Wrong Moves: " + wrongMoves);
+        totalScores.setText("Total Score: " + totalScore);
+
+        dialogBuilder.setTitle("Game Over!");
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    public void playAgain(View view){
+        Intent tutorialOption = new Intent(BubbleSort.this, BubbleSort.class);
+        tutorialOption.putExtra("button", "2");
+        startActivity(tutorialOption);
+    }
+
+    public void quit(View view){
+        Intent tutorialOption = new Intent(BubbleSort.this, MyActivity.class);
+        startActivity(tutorialOption);
+    }
+
+    public void highScores(View view){
+        for(int i = 0; i < 5; i++){
+            editor.putInt(BubbleScore[i], totalScore);
+            editor.apply();
+        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.scores_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        highscore1 = (TextView) dialogView.findViewById(R.id.highscore1);
+        highscore2 = (TextView) dialogView.findViewById(R.id.highscore2);
+        highscore3 = (TextView) dialogView.findViewById(R.id.highscore3);
+        highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
+        highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);
+
+        highscore1.setText("Highscore 1: " + pref.getInt(BubbleScore[0], 0));
+        highscore2.setText("Highscore 2: " + pref.getInt(BubbleScore[1], 0));
+        highscore3.setText("Highscore 3: " + pref.getInt(BubbleScore[2], 0));
+        highscore4.setText("Highscore 4: " + pref.getInt(BubbleScore[3], 0));
+        highscore5.setText("Highscore 5: " + pref.getInt(BubbleScore[4], 0));
+
+        dialogBuilder.setTitle("High Scores");
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
 }
