@@ -11,19 +11,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.os.CountDownTimer;
-
 import java.util.Arrays;
-
 import android.view.View;
 import android.widget.Toast;
-
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class BubbleSort extends AppCompatActivity {
+
 
     public static TextView[] items = new TextView[8];
     TextView clicked1st = null;
@@ -35,7 +32,6 @@ public class BubbleSort extends AppCompatActivity {
     int currentGame;
     String secondsRemaining;
     boolean isCanceled;
-    AlertDialog alert1;
     int hintCount;
     int falseTests;
     int totalScore;
@@ -77,47 +73,25 @@ public class BubbleSort extends AppCompatActivity {
         currentGame = 0;
         isCanceled = false;
 
+        // BubbleScoresValues represents int high scores to be saved in SharedPreferences
         BubbleScoresValues = new int[5];
+        // BubbleScore represents strings used for keys for the SharedPreferences
         BubbleScore = new String[5];
 
-        for(int i = 0; i < 5; i++){
+        // fills strings for BubbleScore from ItemDatabase
+        for (int i = 0; i < 5; i++) {
             BubbleScore[i] = ItemDatabase.BubbleScore[i];
         }
 
-
-        // added by Catherine 4/24/2016
+        // sets up SharedPreferences for high scores
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-/*        editor.putInt(BubbleScore1, 0);
-        editor.apply();*/
 
         hint = (Button) findViewById(R.id.hint);
         test = (Button) findViewById(R.id.test);
         reset = (Button) findViewById(R.id.resetButton);
 
         myTimer = (TextView) findViewById(R.id.timer);
-
-        /*AlertDialog.Builder builder1 = new AlertDialog.Builder(this)
-                .setTitle("Game Over!")
-                .setMessage("This is where your score is going to go")
-                .setCancelable(false)
-                .setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent tutorialOption = new Intent(BubbleSort.this, BubbleSort.class);
-                        tutorialOption.putExtra("button", "2");
-                        startActivity(tutorialOption);
-                    }
-                })
-                .setNegativeButton("Quit", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
-                        Intent tutorialOption = new Intent(BubbleSort.this, MyActivity.class);
-                        startActivity(tutorialOption);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert);
-
-        alert1 = builder1.create();*/
 
         item1 = (TextView) findViewById(R.id.item1);
         items[0] = item1;
@@ -145,39 +119,46 @@ public class BubbleSort extends AppCompatActivity {
         item8.setTag(R.drawable.box_eight);
         totalCount = 8;
 
+        // TODO: add source
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
 
         for (int i = 0; i < items.length; i++) {
             items[i].setText(ItemDatabase.value[i] + "");
             items[i].setOnClickListener(myClickListener);
         }
-        if(currentGame == 0){
+
+        // this initializes the order of swaps for bubble sort
+        // if makes this expandable to use the same activity for all the sorts
+        if (currentGame == 0) {
             pairs = bubbleSort();
         }
 
-        new CountDownTimer(50000, 1000) {
+        // 60000ms with a tick every 1000
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if(!isCanceled) {
+                if (!isCanceled) {
                     myTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
                     secondsRemaining = "" + millisUntilFinished / 1000;
-                } else{
+                } else {
                     cancel();
                 }
             }
 
             public void onFinish() {
                 myTimer.setText("done!");
-                if(isSorted(buildArray())){
-                    secondsRemaining = 0+"";
+                if (isSorted(buildArray())) {
+                    secondsRemaining = 0 + "";
+                    showDialog(true);
                 } else {
-                    alert1.setMessage("You ran out of time!");
-                    alert1.show();
+                    secondsRemaining = 0 + "";
+                    showDialog(false);
                 }
             }
         }.start();
     }
 
+    // swaps two text views
     private static void swap(TextView item1TV, TextView item2TV) {
         CharSequence tempText = item1TV.getText();
         int tempBackground = (int) item1TV.getTag();
@@ -187,6 +168,8 @@ public class BubbleSort extends AppCompatActivity {
         item2TV.setBackgroundResource(tempBackground);
         item1TV.setTag(item2TV.getTag());
         item2TV.setTag(tempBackground);
+        // animation - from external library
+        // TODO: add source
         YoYo.with(Techniques.SlideInDown)
                 .duration(700)
                 .playOn(item1TV);
@@ -195,54 +178,52 @@ public class BubbleSort extends AppCompatActivity {
                 .playOn(item2TV);
     }
 
+    // tests to see if current move is the correct next move for any sort, yeah!
     public void testSwap(View view) {
         int[] current = buildArray();
-        if(isSorted(current)){
+        if (isSorted(current)) {
             isCanceled = true;
             getTotalScore();
-        } else{
+        } else {
             falseTests++;
             displayMessage("Keep Trying!");
         }
     }
 
-    public int getTotalScore(){
-        totalScore = Integer.parseInt(secondsRemaining) - hintWeight*hintCount - testWeight*falseTests - wrongMovesWeight*wrongMoves;
-        if(totalScore<0){
+    // TODO: change for loops to fix SharePreferences high scores
+    public int getTotalScore() {
+        totalScore = Integer.parseInt(secondsRemaining) - hintWeight * hintCount - testWeight * falseTests - wrongMovesWeight * wrongMoves;
+        if (totalScore < 0) {
             totalScore = 0;
         }
-        boolean bool = false;
+        Boolean notChangedYet = true;
 
-        // code added by Catherine for internal storage
-        // code adopted from http://stackoverflow.com/questions/23024831/android-shared-preferences-example
-        for(int i = 0; i < 5; i++){
-            if(pref.getInt(BubbleScore[i], 0) < totalScore&& bool == false){
-                for(int j = 4; j > i; j--){
-                    editor.putInt(BubbleScore[j], BubbleScoresValues[j-1]);
+        for(int i=0; i < BubbleScoresValues.length; i++) {
+            if(totalScore >= pref.getInt(BubbleScore[i],0) && notChangedYet){
+                for(int j=4; j >= i; j--){
+                    if(j>0) {
+                        BubbleScoresValues[j] = BubbleScoresValues[j - 1];
+                        editor.putInt(BubbleScore[j], BubbleScoresValues[j - 1]);
+                        editor.apply();
+                    }
                 }
-                editor.putInt(BubbleScore[i], totalScore);
-                displayMessage("Congratulations! New High Score!");
-                BubbleScoresValues[4] = totalScore;
-                Arrays.sort(BubbleScoresValues);
-                bool = true;
+                BubbleScoresValues[i] = totalScore;
+                editor.putInt(BubbleScore[i], BubbleScoresValues[i]);
+                editor.apply();
+                notChangedYet = false;
             }
         }
-        editor.apply();
-
-
-        /*alert1.setMessage("Time Remaining: " + secondsRemaining + "\nNumber of Hints used: " + hintCount + "\nNumber of incorrect tests: " + falseTests
-                + "\nNumber of Wrong Moves: " + wrongMoves + "\nTotal Score: " + totalScore +"\nHigh Score: " + pref.getInt(BubbleScore1, 0));
-        alert1.show();*/
-        showDialog();
+        showDialog(true);
         return totalScore;
     }
 
-    public void hint(View view){
-        if(!isSorted(buildArray())){
+    // executes next move according to pairs array
+    public void hint(View view) {
+        if (!isSorted(buildArray())) {
             hintCount++;
             swap(items[pairs[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
             currentMove++;
-        }else{
+        } else {
             hintCount++;
             displayMessage("No more moves!");
         }
@@ -254,12 +235,13 @@ public class BubbleSort extends AppCompatActivity {
             if (clicked1st == null) {
                 clicked1st = (TextView) v;
                 clicked1st.setTextSize(45);
+                // TODO: add source
                 v.startAnimation(animAlpha);
             } else {
-                if(clicked1st.equals(v)){
+                if (clicked1st.equals(v)) {
                     clicked1st.setTextSize(30);
                     clicked1st = null;
-                } else if(isNextMove(clicked1st, (TextView) v)){
+                } else if (isNextMove(clicked1st, (TextView) v)) {
                     swap(clicked1st, (TextView) v);
                     clicked1st.setTextSize(30);
                     clicked1st = null;
@@ -276,6 +258,7 @@ public class BubbleSort extends AppCompatActivity {
         }
     };
 
+    // sorts the random array using bubble sort and creates pairs array (object of two ints) of correct sort moves
     public Pairs[] bubbleSort() {
         Pairs[] pairsArray = new Pairs[30];
         int pairsCount = 0;
@@ -306,45 +289,51 @@ public class BubbleSort extends AppCompatActivity {
         Toast.makeText(this, (string), Toast.LENGTH_SHORT).show();
     }
 
-    public boolean isSorted(int[] outsideArray){
+    // checks if sorted
+    public boolean isSorted(int[] outsideArray) {
         int[] temp = new int[totalCount];
-        for(int i = 0; i < temp.length; i++){
+        for (int i = 0; i < temp.length; i++) {
             temp[i] = ItemDatabase.value[i];
         }
         Arrays.sort(temp);
-        for(int i = 0; i < totalCount; i++){
-            if(temp[i] != outsideArray[i]){
+        for (int i = 0; i < totalCount; i++) {
+            if (temp[i] != outsideArray[i]) {
                 return false;
             }
         }
         return true;
     }
 
-    public int[] buildArray(){
+    // creates an int array of the current order of textViews
+    public int[] buildArray() {
         int[] array = new int[totalCount];
-        for(int i = 0; i < totalCount; i++){
+        for (int i = 0; i < totalCount; i++) {
             array[i] = Integer.parseInt(items[i].getText().toString());
         }
         return array;
     }
 
-    public boolean isNextMove(TextView tv1, TextView tv2){
+    // checks if the move attempted by the user is the correct next move
+    public boolean isNextMove(TextView tv1, TextView tv2) {
         int indexOf1 = Arrays.asList(items).indexOf(tv1);
         int indexOf2 = Arrays.asList(items).indexOf(tv2);
-        if(indexOf1 == pairs[currentMove].getFirst() && indexOf2 == pairs[currentMove].getSecond()){
+        if (indexOf1 == pairs[currentMove].getFirst() && indexOf2 == pairs[currentMove].getSecond()) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public void reset(View view){
+    // resets the gameBoard screen to original state
+    public void reset(View view) {
         Intent intent = getIntent();
         finish();
         startActivity(intent);
     }
 
-    public void Tutorial(View view){
+    // TODO: source
+    // adds tutorial to show user how to use interface
+    public void Tutorial(View view) {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); //Delay is in milliseconds
 
@@ -365,7 +354,8 @@ public class BubbleSort extends AppCompatActivity {
         sequence.start();
     }
 
-    public void showDialog(){
+    // shows the pop-up screen after finishing round
+    public void showDialog(boolean timeOut) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
@@ -383,27 +373,29 @@ public class BubbleSort extends AppCompatActivity {
         wrongMove.setText("Number of Wrong Moves: " + wrongMoves);
         totalScores.setText("Total Score: " + totalScore);
 
-        dialogBuilder.setTitle("Game Over!");
+        if (timeOut) {
+            dialogBuilder.setTitle("You Win!");
+        } else {
+            dialogBuilder.setTitle("You Lose!");
+        }
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
 
-    public void playAgain(View view){
+    // TODO: restart game with different array values
+    public void playAgain(View view) {
         Intent tutorialOption = new Intent(BubbleSort.this, BubbleSort.class);
         tutorialOption.putExtra("button", "2");
         startActivity(tutorialOption);
     }
 
-    public void quit(View view){
+    public void quit(View view) {
         Intent tutorialOption = new Intent(BubbleSort.this, MyActivity.class);
         startActivity(tutorialOption);
     }
 
-    public void highScores(View view){
-        for(int i = 0; i < 5; i++){
-            editor.putInt(BubbleScore[i], totalScore);
-            editor.apply();
-        }
+    // shows the pop-up for the high scores using SharedPreferences
+    public void highScores(View view) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.scores_dialog, null);

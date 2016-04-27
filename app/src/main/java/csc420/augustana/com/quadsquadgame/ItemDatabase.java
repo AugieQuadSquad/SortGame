@@ -1,5 +1,6 @@
 package csc420.augustana.com.quadsquadgame;
 
+import android.content.SharedPreferences;
 import android.widget.ImageView;
 import java.util.Random;
 
