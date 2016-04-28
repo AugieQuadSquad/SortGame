@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 
-public class MyActivity extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity {
 
     //test test test test test test
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.main_menu);
 
         Button button1 = (Button) findViewById(R.id.test);
         Button button2 = (Button) findViewById(R.id.tutorial);
@@ -26,7 +26,7 @@ public class MyActivity extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener1 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MyActivity.this, InsertionSortActivity.class);
+            Intent tutorialOption = new Intent(MainMenu.this, BubbleSort.class);
             tutorialOption.putExtra("button", "1");
             startActivity(tutorialOption);
         }
@@ -34,7 +34,7 @@ public class MyActivity extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener2 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MyActivity.this, BubbleSort.class);
+            Intent tutorialOption = new Intent(MainMenu.this, BubbleSort.class);
             tutorialOption.putExtra("button", "2");
             startActivity(tutorialOption);
         }
@@ -42,7 +42,7 @@ public class MyActivity extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener3 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MyActivity.this, TutorialOption.class);
+            Intent tutorialOption = new Intent(MainMenu.this, TutorialOption.class);
             tutorialOption.putExtra("button", "3");
             startActivity(tutorialOption);
         }
