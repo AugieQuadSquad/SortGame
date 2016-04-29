@@ -210,7 +210,6 @@ public class BubbleSort extends AppCompatActivity {
         if (!isSorted(buildArray())) {
             BubbleHighScores.addHint();
             // CR change
-            // swap(items[pairsList[currentMove].getFirst()], items[pairs[currentMove].getSecond()]);
             swap(items[pairsList.get(currentMove).getFirst()], items[pairsList.get(currentMove).getSecond()]);
             currentMove++;
         } else {
