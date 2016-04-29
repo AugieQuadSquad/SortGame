@@ -88,9 +88,15 @@ public class BubbleSort extends AppCompatActivity {
         BubbleScoreKeys = new String[5];
 
         // CR change - creates array for sharedPreference keys
-        for (int i = 1; i <= 5; i++) {
-            BubbleScoreKeys[i-1] = "BubbleScoreKey" + i;
-            BubbleHighScoresValues[i-1] = pref.getInt(BubbleScoreKeys[i-1], 0);
+
+        BubbleScoreKeys[0] = "Score1";
+        BubbleScoreKeys[1] = "Score2";
+        BubbleScoreKeys[2] = "Score3";
+        BubbleScoreKeys[3] = "Socre4";
+        BubbleScoreKeys[4] = "Score5";
+
+        for (int i = 0; i < 5; i++) {
+            BubbleHighScoresValues[i] = pref.getInt(BubbleScoreKeys[i], 0);
             // displayMessage(BubbleScoreKeys[i]);
         }
 
@@ -362,11 +368,17 @@ public class BubbleSort extends AppCompatActivity {
         highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
         highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);
 
-        highscore1.setText("Highscore 1: " + BubbleHighScoresValues[0]);
+        /*highscore1.setText("Highscore 1: " + BubbleHighScoresValues[0]);
         highscore2.setText("Highscore 2: " + BubbleHighScoresValues[1]);
         highscore3.setText("Highscore 3: " + BubbleHighScoresValues[2]);
         highscore4.setText("Highscore 4: " + BubbleHighScoresValues[3]);
-        highscore5.setText("Highscore 5: " + BubbleHighScoresValues[4]);
+        highscore5.setText("Highscore 5: " + BubbleHighScoresValues[4]);*/
+
+        highscore1.setText("Highscore 1: " + pref.getInt(BubbleScoreKeys[0], 0));
+        highscore2.setText("Highscore 2: " + pref.getInt(BubbleScoreKeys[1], 0));
+        highscore3.setText("Highscore 3: " + pref.getInt(BubbleScoreKeys[2], 0));
+        highscore4.setText("Highscore 4: " + pref.getInt(BubbleScoreKeys[3], 0));
+        highscore5.setText("Highscore 5: " + pref.getInt(BubbleScoreKeys[4], 0));
 
         dialogBuilder.setTitle("High Scores");
         AlertDialog b = dialogBuilder.create();
