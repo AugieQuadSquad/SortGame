@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
+
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
@@ -43,7 +45,6 @@ public class BubbleSort extends AppCompatActivity {
     Button hint;
     Button test;
     Button reset;
-    TextView myTimer;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -55,6 +56,9 @@ public class BubbleSort extends AppCompatActivity {
     Random rand;
 
     CountDownTimer timer;
+    CircularFillableLoaders circularFillableLoaders;
+    int circularFillableCount = 0;
+    int secondCountDown = 30;
 
     List<Pairs> pairsList;
 
@@ -104,7 +108,6 @@ public class BubbleSort extends AppCompatActivity {
         test = (Button) findViewById(R.id.test);
         reset = (Button) findViewById(R.id.resetButton);
 
-        myTimer = (TextView) findViewById(R.id.timer);
 
         // sets item array items as the text views
         items[0] = (TextView) findViewById(R.id.item1);
@@ -141,15 +144,17 @@ public class BubbleSort extends AppCompatActivity {
             pairsList = BubbleSortModel.getSwapSequence(buildArray());
         }
 
+        circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.circularFillableLoaders);
+
         // 60000ms with a tick every 1000
-        timer = new CountDownTimer(60000, 1000) {
+        timer = new CountDownTimer(secondCountDown*1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                myTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
                 secondsRemaining = "" + millisUntilFinished / 1000;
+                circularFillableCount += (100/secondCountDown);
+                circularFillableLoaders.setProgress(circularFillableCount);
             }
 
             public void onFinish() {
-                myTimer.setText("done!");
                 if (isSorted(buildArray())) {
                     secondsRemaining = 0 + "";
                     showDialog(true);
