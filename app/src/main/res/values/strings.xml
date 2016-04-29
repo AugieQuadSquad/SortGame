@@ -5,4 +5,15 @@
     <string name="sort2">  Bubble Sort  </string>
     <string name="sort3">  Mystery Sort  </string>
     <string name="choose">Choose a type of sort:</string>
+    <string name="timeRemaining">"Time Remaining: "</string>
+    <string name="hintsUsed">"Number of Hints used: "</string>
+    <string name="tests">"Number of incorrect tests: "</string>
+    <string name="wrongMoves">"Number of Wrong Moves: "</string>
+    <string name="score">"Total Score: "</string>
+    <string name="hs1">Highscore 1: </string>
+    <string name="hs2">Highscore 2: </string>
+    <string name="hs3">Highscore 3: </string>
+    <string name="hs4">Highscore 4: </string>
+    <string name="hs5">Highscore 5: </string>
+
 </resources>
