@@ -27,7 +27,7 @@ import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
-public class BubbleSort extends AppCompatActivity {
+public class GameBoard extends AppCompatActivity {
 
 
     public static TextView[] items = new TextView[8];
@@ -52,8 +52,8 @@ public class BubbleSort extends AppCompatActivity {
 
     public static SharedPreferences pref;
     public static SharedPreferences.Editor editor;
-    public static String[] BubbleScoreKeys;
-    public static int[] BubbleHighScoresValues;
+    public static String[] ScoreKeys;
+    public static int[] HighScoresValues;
 
     // CR changes
     int[] arrayDisplayed;
@@ -61,46 +61,47 @@ public class BubbleSort extends AppCompatActivity {
 
     public static CircularFillableLoaders circularFillableLoaders;
 
-    List<Pairs> pairsList;
+    public static List<Pairs> pairsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bubble_sort);
+        setContentView(R.layout.activity_game_board);
+
+        Intent intent = getIntent();
+        currentGame = intent.getIntExtra("game", -1);
 
         yourNonActivityClass(this);
         res = getResources();
 
         instantiateArray();
 
-        // TODO: get rid of highscores and move to new class....
         totalCount = 0;
         currentMove = 0;
-        currentGame = 0;
 
-        // TODO: get rid of isCanceled - add timer to new class ... ?
+        // TODO: get rid of isCanceled
         isCanceled = false;
 
         // sets up SharedPreferences for high scores
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
 
-        // BubbleHighScoresValues represents int high scores to be saved in SharedPreferences
-        BubbleHighScoresValues = new int[5];
-        // BubbleScoreKeys represents strings used for keys for the SharedPreferences
-        BubbleScoreKeys = new String[5];
+        // HighScoresValues represents int high scores to be saved in SharedPreferences
+        HighScoresValues = new int[5];
+        // ScoreKeys represents strings used for keys for the SharedPreferences
+        ScoreKeys = new String[5];
 
         // CR change - creates array for sharedPreference keys
 
-        BubbleScoreKeys[0] = "Score1";
-        BubbleScoreKeys[1] = "Score2";
-        BubbleScoreKeys[2] = "Score3";
-        BubbleScoreKeys[3] = "Socre4";
-        BubbleScoreKeys[4] = "Score5";
+        ScoreKeys[0] = "Score1";
+        ScoreKeys[1] = "Score2";
+        ScoreKeys[2] = "Score3";
+        ScoreKeys[3] = "Socre4";
+        ScoreKeys[4] = "Score5";
 
         for (int i = 0; i < 5; i++) {
-            BubbleHighScoresValues[i] = pref.getInt(BubbleScoreKeys[i], 0);
-            // displayMessage(BubbleScoreKeys[i]);
+            HighScoresValues[i] = pref.getInt(ScoreKeys[i], 0);
+            // displayMessage(ScoreKeys[i]);
         }
 
         hint = (Button) findViewById(R.id.hint);
@@ -136,10 +137,20 @@ public class BubbleSort extends AppCompatActivity {
         // TODO: add source
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
 
-        // this initializes the order of swaps for bubble sort
+        // this initializes the order of swaps for sort
+        // 0 for Bubble Sort
+        // blah for other sorts
         // if makes this expandable to use the same activity for all the sorts
         if (currentGame == 0) {
+            displayMessage(BubbleSortModel.getName());
             pairsList = BubbleSortModel.getSwapSequence(buildArray());
+        } else if (currentGame == 1) {
+            displayMessage(InsertionSortModel.getName());
+            pairsList = InsertionSortModel.getSwapSequence(buildArray());
+        } else if(currentGame == 2){
+            displayMessage("Don't forget to code this section!");
+        } else {
+            displayMessage("ERROR: Invalid Game Number");
         }
 
         Timer timer = new Timer();
@@ -190,17 +201,17 @@ public class BubbleSort extends AppCompatActivity {
             Timer.cancel();
             getTotalScore();
         } else {
-            BubbleHighScores.addWrongTest();
+            HighScores.addWrongTest();
             displayMessage("Keep Trying!");
         }
     }
 
     // TODO: change for loops to fix SharePreferences high scores
     public static int getTotalScore() {
-        totalScore = BubbleHighScores.getTotalScore(Integer.parseInt(Timer.getSecondsRemaining()));
-        BubbleHighScoresValues = BubbleHighScores.scoreBoard(BubbleHighScoresValues);
-        for (int i = 0; i < BubbleHighScoresValues.length; i++) {
-            editor.putInt(BubbleScoreKeys[i], BubbleHighScoresValues[i]);
+        totalScore = HighScores.getTotalScore(Integer.parseInt(Timer.getSecondsRemaining()));
+        HighScoresValues = HighScores.scoreBoard(HighScoresValues);
+        for (int i = 0; i < HighScoresValues.length; i++) {
+            editor.putInt(ScoreKeys[i], HighScoresValues[i]);
             editor.apply();
         }
         showDialog(true);
@@ -208,14 +219,15 @@ public class BubbleSort extends AppCompatActivity {
     }
 
     // executes next move according to pairs array
+    //TODO: crashes when playing insertion sort
     public void hint(View view) {
         if (!isSorted(buildArray())) {
-            BubbleHighScores.addHint();
+            HighScores.addHint();
             // CR change
             swap(items[pairsList.get(currentMove).getFirst()], items[pairsList.get(currentMove).getSecond()]);
             currentMove++;
         } else {
-            BubbleHighScores.addHint();
+            HighScores.addHint();
             displayMessage("No more moves!");
         }
     }
@@ -238,7 +250,7 @@ public class BubbleSort extends AppCompatActivity {
                     clicked1st = null;
                     currentMove++;
                 } else {
-                    BubbleHighScores.addWrongMove();
+                    HighScores.addWrongMove();
                     displayMessage("Wrong move");
                     clicked1st.setTextSize(30);
                     clicked1st = null;
@@ -286,7 +298,7 @@ public class BubbleSort extends AppCompatActivity {
 
     // resets the gameBoard screen to original state
     public void reset(View view) {
-        BubbleHighScores.addResetClick();
+        HighScores.addResetClick();
         Intent intent = getIntent();
         finish();
         startActivity(intent);
@@ -324,11 +336,11 @@ public class BubbleSort extends AppCompatActivity {
 
         String temp = res.getString(R.string.timeRemaining) + Timer.getSecondsRemaining();
         timeRemaining.setText(temp);
-        temp = res.getString(R.string.hintsUsed) + BubbleHighScores.getHintsCount();
+        temp = res.getString(R.string.hintsUsed) + HighScores.getHintsCount();
         hintsUsed.setText(temp);
-        temp = res.getString(R.string.tests) + BubbleHighScores.getWrongTestCount();
+        temp = res.getString(R.string.tests) + HighScores.getWrongTestCount();
         incorrectTests.setText(temp);
-        temp = res.getString(R.string.wrongMoves) + BubbleHighScores.getWrongMovesCount();
+        temp = res.getString(R.string.wrongMoves) + HighScores.getWrongMovesCount();
         wrongMove.setText(temp);
         temp = res.getString(R.string.score) + totalScore;
         totalScores.setText(temp);
@@ -344,13 +356,13 @@ public class BubbleSort extends AppCompatActivity {
 
     public void playAgain(View view) {
         /*instantiateArray();*/
-        Intent tutorialOption = new Intent(BubbleSort.this, BubbleSort.class);
+        Intent tutorialOption = new Intent(GameBoard.this, GameBoard.class);
         tutorialOption.putExtra("button", "2");
         startActivity(tutorialOption);
     }
 
     public void quit(View view) {
-        Intent tutorialOption = new Intent(BubbleSort.this, MainMenu.class);
+        Intent tutorialOption = new Intent(GameBoard.this, MainMenu.class);
         startActivity(tutorialOption);
     }
 
@@ -367,11 +379,11 @@ public class BubbleSort extends AppCompatActivity {
         highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
         highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);
 
-        highscore1.setText(R.string.hs1 + pref.getInt(BubbleScoreKeys[0], -1));
-        highscore2.setText(R.string.hs2 + pref.getInt(BubbleScoreKeys[1], -1));
-        highscore3.setText(R.string.hs3 + pref.getInt(BubbleScoreKeys[2], -1));
-        highscore4.setText(R.string.hs4 + pref.getInt(BubbleScoreKeys[3], -1));
-        highscore5.setText(R.string.hs5 + pref.getInt(BubbleScoreKeys[4], -1));
+        highscore1.setText(R.string.hs1 + pref.getInt(ScoreKeys[0], -1));
+        highscore2.setText(R.string.hs2 + pref.getInt(ScoreKeys[1], -1));
+        highscore3.setText(R.string.hs3 + pref.getInt(ScoreKeys[2], -1));
+        highscore4.setText(R.string.hs4 + pref.getInt(ScoreKeys[3], -1));
+        highscore5.setText(R.string.hs5 + pref.getInt(ScoreKeys[4], -1));
 
         dialogBuilder.setTitle("High Scores");
         AlertDialog b = dialogBuilder.create();

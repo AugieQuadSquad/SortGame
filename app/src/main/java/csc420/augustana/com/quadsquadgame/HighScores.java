@@ -4,7 +4,7 @@ package csc420.augustana.com.quadsquadgame;
  * Created by Cat on 4/27/2016.
  * CR change
  */
-public class BubbleHighScores {
+public class HighScores {
     private static int hintsCount;
     private static int wrongTestCount;
     private static int resetCount;
@@ -16,7 +16,7 @@ public class BubbleHighScores {
     private static int restWeight = 0;
     private static int[] topScores = new int[5];
 
-    public BubbleHighScores(int hintsCount, int wrongTestCount, int resetCount, int totalScore, int wrongMovesCount, int[] topScores) {
+    public HighScores(int hintsCount, int wrongTestCount, int resetCount, int totalScore, int wrongMovesCount, int[] topScores) {
         this.hintsCount = hintsCount;
         this.wrongTestCount = wrongTestCount;
         this.resetCount = resetCount;

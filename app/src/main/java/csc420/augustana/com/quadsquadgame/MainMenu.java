@@ -26,24 +26,24 @@ public class MainMenu extends AppCompatActivity {
 
     private final View.OnClickListener buttonListener1 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MainMenu.this, BubbleSort.class);
-            tutorialOption.putExtra("button", "1");
+            Intent tutorialOption = new Intent(MainMenu.this, GameBoard.class);
+            tutorialOption.putExtra("game", 0);
             startActivity(tutorialOption);
         }
     };
 
     private final View.OnClickListener buttonListener2 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MainMenu.this, BubbleSort.class);
-            tutorialOption.putExtra("button", "2");
+            Intent tutorialOption = new Intent(MainMenu.this, GameBoard.class);
+            tutorialOption.putExtra("game", 1);
             startActivity(tutorialOption);
         }
     };
 
     private final View.OnClickListener buttonListener3 = new View.OnClickListener() {
         public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MainMenu.this, TutorialOption.class);
-            tutorialOption.putExtra("button", "3");
+            Intent tutorialOption = new Intent(MainMenu.this, GameBoard.class);
+            tutorialOption.putExtra("game", 2);
             startActivity(tutorialOption);
         }
     };

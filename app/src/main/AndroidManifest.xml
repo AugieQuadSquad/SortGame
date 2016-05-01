@@ -24,7 +24,7 @@
 
         <!-- Bubble Sort Activity -->
         <activity
-            android:name=".BubbleSort"
+            android:name=".GameBoard"
             android:screenOrientation="landscape" />
     </application>
 

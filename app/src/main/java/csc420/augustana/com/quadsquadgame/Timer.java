@@ -20,16 +20,16 @@ public class Timer {
             public void onTick(long millisUntilFinished) {
                 secondsRemaining = "" + millisUntilFinished / 1000;
                 circularFillableCount += (100 / secondCountDown);
-                BubbleSort.setTimerGraphic(circularFillableCount);
+                GameBoard.setTimerGraphic(circularFillableCount);
             }
 
             public void onFinish() {
-                if (BubbleSort.isSorted(BubbleSort.buildArray())) {
+                if (GameBoard.isSorted(GameBoard.buildArray())) {
                     secondsRemaining = 0 + "";
-                    BubbleSort.showDialog(true);
+                    GameBoard.showDialog(true);
                 } else {
                     secondsRemaining = 0 + "";
-                    BubbleSort.showDialog(false);
+                    GameBoard.showDialog(false);
                 }
             }
         }.start();
