@@ -130,7 +130,7 @@ public class GameBoard extends AppCompatActivity {
 
         circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.circularFillableLoaders);
 
-        // TODO: add source
+        // SOURCE: http://android-er.blogspot.com/2014/09/apply-animation-on-buttons-to-start.html
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
 
         // this initializes the order of swaps for sort
@@ -181,7 +181,7 @@ public class GameBoard extends AppCompatActivity {
         item1TV.setTag(item2TV.getTag());
         item2TV.setTag(tempBackground);
         // animation - from external library
-        // TODO: add source
+        // SOURCE: https://github.com/daimajia/AndroidViewAnimations
         YoYo.with(Techniques.SlideInDown)
                 .duration(700)
                 .playOn(item1TV);
@@ -233,7 +233,7 @@ public class GameBoard extends AppCompatActivity {
             if (clicked1st == null) {
                 clicked1st = (TextView) v;
                 clicked1st.setTextSize(45);
-                // TODO: add source
+                // SOURCE: http://android-er.blogspot.com/2014/09/apply-animation-on-buttons-to-start.html
                 v.startAnimation(animAlpha);
             } else {
                 if (clicked1st.equals(v)) {
@@ -299,8 +299,8 @@ public class GameBoard extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // TODO: source
     // adds tutorial to show user how to use interface
+    // SOURCE: https://github.com/deano2390/MaterialShowcaseView
     public void Tutorial(View view) {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); //Delay is in milliseconds
