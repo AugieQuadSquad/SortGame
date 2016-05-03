@@ -36,7 +36,6 @@ public class GameBoard extends AppCompatActivity {
     public static int totalCount;
     public static int currentMove;
     public static int currentGame;
-    public static boolean isCanceled;
     public static int totalScore;
     private static Context context;
     private static Resources res;
@@ -78,9 +77,6 @@ public class GameBoard extends AppCompatActivity {
 
         totalCount = 0;
         currentMove = 0;
-
-        // TODO: get rid of isCanceled
-        isCanceled = false;
 
         // sets up SharedPreferences for high scores
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -219,7 +215,6 @@ public class GameBoard extends AppCompatActivity {
     }
 
     // executes next move according to pairs array
-    //TODO: crashes when playing insertion sort
     public void hint(View view) {
         if (!isSorted(buildArray())) {
             HighScores.addHint();
@@ -356,14 +351,14 @@ public class GameBoard extends AppCompatActivity {
 
     public void playAgain(View view) {
         /*instantiateArray();*/
-        Intent tutorialOption = new Intent(GameBoard.this, GameBoard.class);
-        tutorialOption.putExtra("button", "2");
-        startActivity(tutorialOption);
+        Intent game = new Intent(GameBoard.this, GameBoard.class);
+        game.putExtra("game", currentGame);
+        startActivity(game);
     }
 
     public void quit(View view) {
-        Intent tutorialOption = new Intent(GameBoard.this, MainMenu.class);
-        startActivity(tutorialOption);
+        Intent menu = new Intent(GameBoard.this, MainMenu.class);
+        startActivity(menu);
     }
 
     // shows the pop-up for the high scores using SharedPreferences
@@ -379,11 +374,11 @@ public class GameBoard extends AppCompatActivity {
         highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
         highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);
 
-        highscore1.setText(R.string.hs1 + pref.getInt(ScoreKeys[0], -1));
-        highscore2.setText(R.string.hs2 + pref.getInt(ScoreKeys[1], -1));
-        highscore3.setText(R.string.hs3 + pref.getInt(ScoreKeys[2], -1));
-        highscore4.setText(R.string.hs4 + pref.getInt(ScoreKeys[3], -1));
-        highscore5.setText(R.string.hs5 + pref.getInt(ScoreKeys[4], -1));
+        highscore1.setText(res.getString(R.string.hs1) + " " + pref.getInt(ScoreKeys[0], -1));
+        highscore2.setText(res.getString(R.string.hs2) + " " + pref.getInt(ScoreKeys[1], -1));
+        highscore3.setText(res.getString(R.string.hs3) + " " + pref.getInt(ScoreKeys[2], -1));
+        highscore4.setText(res.getString(R.string.hs4) + " " + pref.getInt(ScoreKeys[3], -1));
+        highscore5.setText(res.getString(R.string.hs5) + " " + pref.getInt(ScoreKeys[4], -1));
 
         dialogBuilder.setTitle("High Scores");
         AlertDialog b = dialogBuilder.create();

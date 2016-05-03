@@ -24,6 +24,7 @@ public class MainMenu extends AppCompatActivity {
         button3.setOnClickListener(buttonListener3);
     }
 
+    //TODO: add how to before GameBoard
     private final View.OnClickListener buttonListener1 = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, GameBoard.class);

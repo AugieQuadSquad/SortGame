@@ -16,11 +16,11 @@ public class InsertionSortModel {
         for (int i = 0; i < tempArray.length; i++) {
             tempArray[i] = array[i];
         }
-        int numSorted = 0;
-        for (int i = numSorted; i < tempArray.length; i++){  // start at 1 ?
+        /*int numSorted = 0;*/
+        for (int i = 1; i < tempArray.length; i++){  // start at 1 ?
             extractedElement = tempArray[i];
             extractedElementIndex = i;
-            for(int j = i - 1; j>=0; j--){
+          /*  for(int j = i - 1; j>=0; j--){
                 if(extractedElement < tempArray[j]) {
                     Pairs tempPair = new Pairs(j + 1, j);
                     pairsList.add(tempPair);
@@ -35,6 +35,18 @@ public class InsertionSortModel {
                     pairsList.add(tempPair);
                     tempArray[j + 1] = extractedElement;
                 }
+            }*/
+            int arrayCount = extractedElementIndex - 1;
+            boolean wasMoved = false;
+            while(arrayCount>=0 && extractedElement < tempArray[arrayCount]){
+                Pairs tempPair = new Pairs(arrayCount + 1, arrayCount);
+                pairsList.add(tempPair);
+                tempArray[arrayCount + 1] = tempArray[arrayCount];
+                wasMoved = true;
+                arrayCount--;
+            }
+            if(wasMoved){
+                tempArray[arrayCount+1] = extractedElement;
             }
         }
         return pairsList;

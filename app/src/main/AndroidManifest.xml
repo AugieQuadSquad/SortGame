@@ -22,10 +22,12 @@
 
         <!-- Human Sort Activity -->
 
+
         <!-- Bubble Sort Activity -->
         <activity
             android:name=".GameBoard"
             android:screenOrientation="landscape" />
+        <activity android:name=".Instructions"></activity>
     </application>
 
 </manifest>

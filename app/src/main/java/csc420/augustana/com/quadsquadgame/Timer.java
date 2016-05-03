@@ -9,7 +9,7 @@ public class Timer {
 
     public static String secondsRemaining;
     int circularFillableCount = 0;
-    private int secondCountDown = 30;
+    private int secondCountDown = 300;
     public static CountDownTimer timer;
 
 
