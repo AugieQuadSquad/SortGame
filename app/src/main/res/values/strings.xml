@@ -3,20 +3,20 @@
     <string name="title">Learn how to sort like a computer scientist!</string>
     <string name="sort1">  Bubble Sort  </string>
     <string name="sort2">  Insertion Sort  </string>
-    <string name="sort3">  Mystery Sort  </string>
+    <string name="sort3">  Selection Sort  </string>
     <string name="choose">Choose a type of sort:</string>
     <string name="timeRemaining">"Time Remaining: "</string>
     <string name="hintsUsed">"Number of Hints used: "</string>
     <string name="tests">"Number of incorrect tests: "</string>
     <string name="wrongMoves">"Number of Wrong Moves: "</string>
     <string name="score">"Total Score: "</string>
-    <string name="hs1">Highscore 1: </string>
-    <string name="hs2">Highscore 2: </string>
+    <string name="hs1">Highscore: </string>
+    <!--<string name="hs2">Highscore 2: </string>
     <string name="hs3">Highscore 3: </string>
     <string name="hs4">Highscore 4: </string>
-    <string name="hs5">Highscore 5: </string>
+    <string name="hs5">Highscore 5: </string>-->
     <string name="bubbleSortInstructions">Hello! Welcome to the Quad Squad Bubble Sort Game! To skip this tutorial, press the play button at the bottom of the page!\n\nBubble Sort is a technique used by computers to sort a list.\n\nThis sort always starts at the far left of the list and moves right through comparing two items at a time. \n\nIt starts with the first and second item, and if the first one is bigger than the second item, then it switches the two!\n\nIt then moves to the second and third item and if the second is bigger than the third item, it swaps them. \n\nIt will continue down the list, checking the two neighboring items until it gets to the end of the list. \n\nThen it will start back at the far left and repeat the process over again! \n\nAs you may find, this sorting method is somewhat slow and involves a lot of checks. \n\nLet\'s see how well you can Bubble Sort like a Computer!! Click the next button below to begin! </string>
     <string name="insertionSortInstructions">Don\'t forget to write this!</string>
-    <string name="sort4">Selection Sort</string>
+    <!--<string name="sort4">Selection Sort</string>-->
 
 </resources>

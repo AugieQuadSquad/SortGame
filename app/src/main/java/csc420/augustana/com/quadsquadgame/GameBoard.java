@@ -2,6 +2,7 @@ package csc420.augustana.com.quadsquadgame;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -39,11 +40,11 @@ public class GameBoard extends AppCompatActivity {
     private static Context context;
     private static Resources res;
 
-    TextView highscore1;
-    TextView highscore2;
+    TextView highscore;
+    /*TextView highscore2;
     TextView highscore3;
     TextView highscore4;
-    TextView highscore5;
+    TextView highscore5;*/
     Button hint;
     Button test;
     Button reset;
@@ -77,18 +78,18 @@ public class GameBoard extends AppCompatActivity {
         totalCount = 0;
         currentMove = 0;
 
-        // sets up SharedPreferences for high scores
+        /*/ sets up SharedPreferences for high scores
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        editor = pref.edit();
+        editor = pref.edit();*/
 
-        // HighScoresValues represents int high scores to be saved in SharedPreferences
+        /*// HighScoresValues represents int high scores to be saved in SharedPreferences
         HighScoresValues = new int[5];
         // ScoreKeys represents strings used for keys for the SharedPreferences
-        ScoreKeys = new String[5];
+        ScoreKeys = new String[5];*/
 
         // CR change - creates array for sharedPreference keys
 
-        ScoreKeys[0] = "Score1";
+        /*ScoreKeys[0] = "Score1";
         ScoreKeys[1] = "Score2";
         ScoreKeys[2] = "Score3";
         ScoreKeys[3] = "Socre4";
@@ -97,7 +98,7 @@ public class GameBoard extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
             HighScoresValues[i] = pref.getInt(ScoreKeys[i], 0);
             // displayMessage(ScoreKeys[i]);
-        }
+        }*/
 
         hint = (Button) findViewById(R.id.hint);
         test = (Button) findViewById(R.id.test);
@@ -137,10 +138,8 @@ public class GameBoard extends AppCompatActivity {
         // blah for other sorts
         // if makes this expandable to use the same activity for all the sorts
         if (currentGame == 0) {
-            displayMessage(BubbleSortModel.getName());
             pairsList = BubbleSortModel.getSwapSequence(buildArray());
         } else if (currentGame == 1) {
-            displayMessage(InsertionSortModel.getName());
             pairsList = InsertionSortModel.getSwapSequence(buildArray());
         } else if(currentGame == 2){
             pairsList = SelectionSortModel.getSwapSequence(buildArray());
@@ -204,10 +203,23 @@ public class GameBoard extends AppCompatActivity {
     // TODO: change for loops to fix SharePreferences high scores
     public static int getTotalScore() {
         totalScore = HighScores.getTotalScore(Integer.parseInt(Timer.getSecondsRemaining()));
-        HighScoresValues = HighScores.scoreBoard(HighScoresValues);
+        /*HighScoresValues = HighScores.scoreBoard(HighScoresValues);
         for (int i = 0; i < HighScoresValues.length; i++) {
             editor.putInt(ScoreKeys[i], HighScoresValues[i]);
             editor.apply();
+        }*/
+        if(currentGame == 0){
+            if(totalScore>SaveSharedPreference.getPrefBubbleHighscore(context)){
+                SaveSharedPreference.setPrefBubbleHighscore(context, totalScore);
+            }
+        } else if(currentGame == 1){
+            if(totalScore>SaveSharedPreference.getPrefInsertionHighscore(context)){
+                SaveSharedPreference.setPrefInsertionHighscore(context, totalScore);
+            }
+        } else if(currentGame == 2){
+            if(totalScore>SaveSharedPreference.getPrefSelectionHighscore(context)){
+                SaveSharedPreference.setPrefSelectionHighscore(context, totalScore);
+            }
         }
         showDialog(true);
         return totalScore;
@@ -295,6 +307,7 @@ public class GameBoard extends AppCompatActivity {
         HighScores.addResetClick();
         Intent intent = getIntent();
         finish();
+        Timer.cancel();
         startActivity(intent);
     }
 
@@ -350,9 +363,11 @@ public class GameBoard extends AppCompatActivity {
 
     public void playAgain(View view) {
         /*instantiateArray();*/
+        Timer.cancel();
         Intent game = new Intent(GameBoard.this, GameBoard.class);
         game.putExtra("game", currentGame);
         startActivity(game);
+        finish();
     }
 
     public void quit(View view) {
@@ -361,26 +376,54 @@ public class GameBoard extends AppCompatActivity {
     }
 
     // shows the pop-up for the high scores using SharedPreferences
-    public void highScores(View view) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+    public void highScores(final View view) {
+        /*AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.scores_dialog, null);
-        dialogBuilder.setView(dialogView);
+        dialogBuilder.setView(dialogView);*/
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton("Play Again?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                playAgain(view);
+            }
+        });
+        builder.setNegativeButton("Main Menu", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                quit(view);
+            }
+        });
 
-        highscore1 = (TextView) dialogView.findViewById(R.id.highscore1);
-        highscore2 = (TextView) dialogView.findViewById(R.id.highscore2);
+
+        /*highscore = (TextView) dialogView.findViewById(R.id.highscore1);*/
+        /*highscore2 = (TextView) dialogView.findViewById(R.id.highscore2);
         highscore3 = (TextView) dialogView.findViewById(R.id.highscore3);
         highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
-        highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);
+        highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);*/
 
-        highscore1.setText(res.getString(R.string.hs1) + " " + pref.getInt(ScoreKeys[0], -1));
-        highscore2.setText(res.getString(R.string.hs2) + " " + pref.getInt(ScoreKeys[1], -1));
+        if(currentGame == 0){
+            builder.setTitle("Bubble Sort Highscore!");
+            builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefBubbleHighscore(context));
+        } else if(currentGame == 1){
+            builder.setTitle("Insertion Sort Highscore!");
+            builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefInsertionHighscore(context));
+        } else if(currentGame == 2){
+            builder.setTitle("Selection Sort Highscore!");
+            builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefSelectionHighscore(context));
+        } else {
+            builder.setMessage("Invalid Game Number");
+        }
+        builder.create().show();
+
+        /*highscore.setText(res.getString(R.string.hs1) + " " + pref.getInt(ScoreKeys[0], -1));*/
+        /*highscore2.setText(res.getString(R.string.hs2) + " " + pref.getInt(ScoreKeys[1], -1));
         highscore3.setText(res.getString(R.string.hs3) + " " + pref.getInt(ScoreKeys[2], -1));
         highscore4.setText(res.getString(R.string.hs4) + " " + pref.getInt(ScoreKeys[3], -1));
-        highscore5.setText(res.getString(R.string.hs5) + " " + pref.getInt(ScoreKeys[4], -1));
+        highscore5.setText(res.getString(R.string.hs5) + " " + pref.getInt(ScoreKeys[4], -1));*/
 
-        dialogBuilder.setTitle("High Scores");
+        /*dialogBuilder.setTitle("High Scores");
         AlertDialog b = dialogBuilder.create();
-        b.show();
+        b.show();*/
     }
 }

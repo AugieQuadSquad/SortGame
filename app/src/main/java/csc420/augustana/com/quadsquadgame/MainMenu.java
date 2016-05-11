@@ -13,18 +13,18 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-        Button button1 = (Button) findViewById(R.id.test);
-        Button button2 = (Button) findViewById(R.id.tutorial);
-        Button button3 = (Button) findViewById(R.id.hint);
-        Button button4 = (Button) findViewById(R.id.selectionsort);
+        Button bubbleButton = (Button) findViewById(R.id.bubbleSort);
+        Button insertionButton = (Button) findViewById(R.id.insertionSort);
+        Button selectionButton = (Button) findViewById(R.id.selectionSort);
+        /*Button button4 = (Button) findViewById(R.id.selectionsort);*/
 
-        button1.setOnClickListener(instructions1);
-        button2.setOnClickListener(instructions2);
-        button3.setOnClickListener(instructions3);
-        button4.setOnClickListener(instructions4);
+        bubbleButton.setOnClickListener(bubbleInstructions);
+        insertionButton.setOnClickListener(insertionInstructions);
+        selectionButton.setOnClickListener(selectionInstructions);
+        /*button4.setOnClickListener(instructions4);*/
     }
 
-    private final View.OnClickListener instructions1 = new View.OnClickListener() {
+    private final View.OnClickListener bubbleInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
             tutorialOption.putExtra("game", 0);
@@ -32,7 +32,7 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener instructions2 = new View.OnClickListener() {
+    private final View.OnClickListener insertionInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
             tutorialOption.putExtra("game", 1);
@@ -40,19 +40,19 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener instructions3 = new View.OnClickListener() {
-        public void onClick(View btn) {
-            Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
-            tutorialOption.putExtra("game", 3);
-            startActivity(tutorialOption);
-        }
-    };
-
-    private final View.OnClickListener instructions4 = new View.OnClickListener() {
+    private final View.OnClickListener selectionInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
             tutorialOption.putExtra("game", 2);
             startActivity(tutorialOption);
         }
     };
+
+    /*private final View.OnClickListener instructions4 = new View.OnClickListener() {
+        public void onClick(View btn) {
+            Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
+            tutorialOption.putExtra("game", 2);
+            startActivity(tutorialOption);
+        }
+    };*/
 }
