@@ -53,6 +53,16 @@
             android:textColor="#ffffff" />
 
         <Button
+            android:id="@+id/selectionsort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:text="@string/sort4"
+            android:textColor="#ffffff" />
+
+        <Button
             android:id="@+id/hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,24 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
-import android.view.View;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -144,7 +143,7 @@ public class GameBoard extends AppCompatActivity {
             displayMessage(InsertionSortModel.getName());
             pairsList = InsertionSortModel.getSwapSequence(buildArray());
         } else if(currentGame == 2){
-            displayMessage("Don't forget to code this section!");
+            pairsList = SelectionSortModel.getSwapSequence(buildArray());
         } else {
             displayMessage("ERROR: Invalid Game Number");
         }
