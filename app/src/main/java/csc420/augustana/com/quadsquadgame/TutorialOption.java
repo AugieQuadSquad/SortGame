@@ -7,6 +7,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TutorialOption extends AppCompatActivity {
+    private static final int BUBBLE_SORT = 0;
+    private static final int INSERTION_SORT = 1;
+    private static final int SELECTION_SORT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +20,13 @@ public class TutorialOption extends AppCompatActivity {
         Intent intent = getIntent();
         String str = intent.getStringExtra("button");
         int button = Integer.parseInt(str);
-        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.LinearLayout);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.LinearLayout);
         TextView text = (TextView) findViewById(R.id.textView3);
-        if(button == 1){
+        if (button == INSERTION_SORT) {
             text.setText("Insertion Sort");
-        } else if(button == 2) {
+        } else if (button == SELECTION_SORT) {
             text.setText("Selection Sort");
-        } else if(button ==3) {
+        } else if (button == BUBBLE_SORT) {
             text.setText("Bubble Sort");
         }
     }

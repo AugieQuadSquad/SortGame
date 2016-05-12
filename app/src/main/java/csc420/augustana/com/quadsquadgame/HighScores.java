@@ -25,57 +25,43 @@ public class HighScores {
         this.topScores = topScores;
     }
 
-    public static int getHintsCount(){
+    public static int getHintsCount() {
         return hintsCount;
     }
 
-    public static int getWrongTestCount(){
+    public static int getWrongTestCount() {
         return wrongTestCount;
     }
 
-    public static int getResetCount(){
+    public static int getResetCount() {
         return resetCount;
     }
 
-    public static int getWrongMovesCount(){
+    public static int getWrongMovesCount() {
         return wrongMovesCount;
     }
 
-    public static void addHint(){
+    public static void addHint() {
         hintsCount++;
     }
 
-    public static void addWrongTest(){
+    public static void addWrongTest() {
         wrongTestCount++;
     }
 
-    public static void addResetClick(){
+    public static void addResetClick() {
         resetCount++;
     }
 
-    public static void addWrongMove() { wrongMovesCount++; }
+    public static void addWrongMove() {
+        wrongMovesCount++;
+    }
 
-    public static int getTotalScore(int secondsRemaining){
-        totalScore = secondsRemaining + - hintWeight * hintsCount - testWeight * wrongTestCount - wrongMovesWeight * wrongMovesCount - resetCount* restWeight;
+    public static int getTotalScore(int secondsRemaining) {
+        totalScore = secondsRemaining + -hintWeight * hintsCount - testWeight * wrongTestCount - wrongMovesWeight * wrongMovesCount - resetCount * restWeight;
         if (totalScore < 0) {
             totalScore = 0;
         }
         return totalScore;
-    }
-
-    public static int[] scoreBoard(int[] pastScores) {
-        Boolean notChangedYet = true;
-        for(int i=0; i < pastScores.length; i++) {
-            if(totalScore >= pastScores[i] && notChangedYet){
-                for(int j=4; j > i; j--){
-                    if(j>0) {
-                        topScores[j] = topScores[j - 1];
-                    }
-                }
-                topScores[i] = totalScore;
-                notChangedYet = false;
-            }
-        }
-        return topScores;
     }
 }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainMenu extends AppCompatActivity {
+    private static final int BUBBLE_SORT = 0;
+    private static final int INSERTION_SORT = 1;
+    private static final int SELECTION_SORT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class MainMenu extends AppCompatActivity {
     private final View.OnClickListener bubbleInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
-            tutorialOption.putExtra("game", 0);
+            tutorialOption.putExtra("game", BUBBLE_SORT);
             startActivity(tutorialOption);
         }
     };
@@ -35,7 +38,7 @@ public class MainMenu extends AppCompatActivity {
     private final View.OnClickListener insertionInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
-            tutorialOption.putExtra("game", 1);
+            tutorialOption.putExtra("game", INSERTION_SORT);
             startActivity(tutorialOption);
         }
     };
@@ -43,7 +46,7 @@ public class MainMenu extends AppCompatActivity {
     private final View.OnClickListener selectionInstructions = new View.OnClickListener() {
         public void onClick(View btn) {
             Intent tutorialOption = new Intent(MainMenu.this, Instructions.class);
-            tutorialOption.putExtra("game", 2);
+            tutorialOption.putExtra("game", SELECTION_SORT);
             startActivity(tutorialOption);
         }
     };

@@ -10,7 +10,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class Instructions extends AppCompatActivity {
-
+    private static final int BUBBLE_SORT = 0;
+    private static final int INSERTION_SORT = 1;
+    private static final int SELECTION_SORT = 2;
     int currentGame = -1;
 
     @Override
@@ -24,21 +26,21 @@ public class Instructions extends AppCompatActivity {
         setText();
     }
 
-    public void toGame(View view){
+    public void toGame(View view) {
         Intent tutorialOption = new Intent(Instructions.this, GameBoard.class);
         tutorialOption.putExtra("game", currentGame);
         startActivity(tutorialOption);
     }
 
-    public void setText(){
+    public void setText() {
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
-        if(currentGame == 0 ){
+        if (currentGame == BUBBLE_SORT) {
             textView.setText(R.string.bubbleSortInstructions);
-        } else if(currentGame == 1){
+        } else if (currentGame == INSERTION_SORT) {
             textView.setText(R.string.insertionSortInstructions);
-        } else if(currentGame == 2){
+        } else if (currentGame == SELECTION_SORT) {
             textView.setText("Other Sort method instructions go here");
         } else {
             textView.setText("Error: Invalid Game number!");

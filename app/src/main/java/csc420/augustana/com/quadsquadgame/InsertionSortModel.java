@@ -20,22 +20,6 @@ public class InsertionSortModel {
         for (int i = 1; i < tempArray.length; i++){  // start at 1 ?
             extractedElement = tempArray[i];
             extractedElementIndex = i;
-          /*  for(int j = i - 1; j>=0; j--){
-                if(extractedElement < tempArray[j]) {
-                    Pairs tempPair = new Pairs(j + 1, j);
-                    pairsList.add(tempPair);
-                    tempArray[j + 1] = tempArray[j];
-                    // tempArray[j] = extractedElement;   add after while loop
-                } else {
-                    // actually, if the object is not smaller, shouldn't it just quit the for loop
-                    // .... so should we just make a while loop with the check being
-                    // .... (notBigger && currentIndex > 0)
-                    //      and decrease the currentIndex every time ... ?
-                    Pairs tempPair = new Pairs(j + 1, extractedElementIndex);
-                    pairsList.add(tempPair);
-                    tempArray[j + 1] = extractedElement;
-                }
-            }*/
             int arrayCount = extractedElementIndex - 1;
             boolean wasMoved = false;
             while(arrayCount>=0 && extractedElement < tempArray[arrayCount]){
