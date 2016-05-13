@@ -29,6 +29,7 @@ public class Instructions extends AppCompatActivity {
     public void toGame(View view) {
         Intent tutorialOption = new Intent(Instructions.this, GameBoard.class);
         tutorialOption.putExtra("game", currentGame);
+        finish();
         startActivity(tutorialOption);
     }
 
@@ -41,7 +42,7 @@ public class Instructions extends AppCompatActivity {
         } else if (currentGame == INSERTION_SORT) {
             textView.setText(R.string.insertionSortInstructions);
         } else if (currentGame == SELECTION_SORT) {
-            textView.setText("Other Sort method instructions go here");
+            textView.setText(R.string.selectionSortInstructions);
         } else {
             textView.setText("Error: Invalid Game number!");
         }

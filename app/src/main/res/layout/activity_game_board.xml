@@ -125,7 +125,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal|center_vertical"
         android:layout_weight="1"
-        android:weightSum="5"
+        android:weightSum="6"
         android:orientation="horizontal">
 
         <Button
@@ -156,13 +156,22 @@
             android:text="Tutorial"/>
 
         <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resetButton"
+        android:gravity="center"
+        android:onClick="reset"
+        android:layout_weight="1"
+        android:text="Reset"/>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/resetButton"
+            android:id="@+id/homeButton"
             android:gravity="center"
-            android:onClick="reset"
+            android:onClick="quit"
             android:layout_weight="1"
-            android:text="Reset"/>
+            android:text="Home"/>
 
         <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
             android:id="@+id/circularFillableLoaders"

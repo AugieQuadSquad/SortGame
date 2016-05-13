@@ -14,15 +14,22 @@ public class HighScores {
     private static int testWeight = 0;
     private static int wrongMovesWeight = 0;
     private static int restWeight = 0;
-    private static int[] topScores = new int[5];
 
-    public HighScores(int hintsCount, int wrongTestCount, int resetCount, int totalScore, int wrongMovesCount, int[] topScores) {
+    public HighScores(int hintsCount, int wrongTestCount, int resetCount, int totalScore, int wrongMovesCount) {
         this.hintsCount = hintsCount;
         this.wrongTestCount = wrongTestCount;
         this.resetCount = resetCount;
         this.totalScore = totalScore;
         this.wrongMovesCount = wrongMovesCount;
-        this.topScores = topScores;
+        //this.topScores = topScores;
+    }
+
+    public static void resetScores(){
+        hintsCount = 0;
+        resetCount = 0;
+        wrongTestCount = 0;
+        wrongMovesCount = 0;
+        totalScore = 0;
     }
 
     public static int getHintsCount() {

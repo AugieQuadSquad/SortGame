@@ -42,5 +42,4 @@ public class Timer {
     public static void cancel(){
         timer.cancel();
     }
-
 }

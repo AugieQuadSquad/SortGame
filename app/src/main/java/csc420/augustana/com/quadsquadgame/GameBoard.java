@@ -42,14 +42,16 @@ public class GameBoard extends AppCompatActivity {
     private static Context context;
     private static Resources res;
 
+    HighScores hs;
+
     Button hint;
     Button test;
     Button reset;
 
-    public static SharedPreferences pref;
-    public static SharedPreferences.Editor editor;
-    public static String[] ScoreKeys;
-    public static int[] HighScoresValues;
+//    public static SharedPreferences pref;
+//    public static SharedPreferences.Editor editor;
+//    public static String[] ScoreKeys;
+//    public static int[] HighScoresValues;
 
     // CR changes
     int[] arrayDisplayed;
@@ -79,6 +81,8 @@ public class GameBoard extends AppCompatActivity {
         test = (Button) findViewById(R.id.test);
         reset = (Button) findViewById(R.id.resetButton);
 
+        /*builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);*/
 
         // sets item array items as the text views
         items[0] = (TextView) findViewById(R.id.item1);
@@ -119,6 +123,8 @@ public class GameBoard extends AppCompatActivity {
         } else {
             displayMessage("ERROR: Invalid Game Number");
         }
+
+        HighScores.resetScores();
 
         Timer timer = new Timer();
         timer.start();
@@ -348,15 +354,21 @@ public class GameBoard extends AppCompatActivity {
 
     public void quit(View view) {
         Intent menu = new Intent(GameBoard.this, MainMenu.class);
+        Timer.cancel();
         startActivity(menu);
+        finish();
     }
 
     // shows the pop-up for the high score using SharedPreferences
     public void highScores(final View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);
         builder.setPositiveButton("Play Again?", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
                 playAgain(view);
             }
         });
@@ -364,15 +376,12 @@ public class GameBoard extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 quit(view);
+                dialog.cancel();
+                finish();
             }
         });
 
 
-        /*highscore = (TextView) dialogView.findViewById(R.id.highscore1);*/
-        /*highscore2 = (TextView) dialogView.findViewById(R.id.highscore2);
-        highscore3 = (TextView) dialogView.findViewById(R.id.highscore3);
-        highscore4 = (TextView) dialogView.findViewById(R.id.highscore4);
-        highscore5 = (TextView) dialogView.findViewById(R.id.highscore5);*/
 
         if(currentGame == BUBBLE_SORT){
             builder.setTitle("Bubble Sort Highscore!");
@@ -388,14 +397,5 @@ public class GameBoard extends AppCompatActivity {
         }
         builder.create().show();
 
-        /*highscore.setText(res.getString(R.string.hs1) + " " + pref.getInt(ScoreKeys[0], -1));*/
-        /*highscore2.setText(res.getString(R.string.hs2) + " " + pref.getInt(ScoreKeys[1], -1));
-        highscore3.setText(res.getString(R.string.hs3) + " " + pref.getInt(ScoreKeys[2], -1));
-        highscore4.setText(res.getString(R.string.hs4) + " " + pref.getInt(ScoreKeys[3], -1));
-        highscore5.setText(res.getString(R.string.hs5) + " " + pref.getInt(ScoreKeys[4], -1));*/
-
-        /*dialogBuilder.setTitle("High Scores");
-        AlertDialog b = dialogBuilder.create();
-        b.show();*/
     }
 }
