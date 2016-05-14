@@ -5,13 +5,25 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by Devon White on 5/11/2016.
+ * The SaveSharedPreference class uses the context passes in as parameters and
+ * saves the values into Shared Preferences using the global variables as the
+ * key for the Shared Preferences
+ *
+ * @author Devon White, Michael Currie, Luke Currie, Catherine Cross
+ * @since 5/11/2016
  */
 public class SaveSharedPreference {
     static final String PREF_BUBBLE_HIGHSCORE = "Bubble Highscore";
     static final String PREF_INSERTION_HIGHSCORE = "Insertion Highscore";
     static final String PREF_SELECTION_HIGHSCORE = "Selection Highscore";
 
+    /**
+     * The following methods get or set the shared preference values for the
+     * high scores for each of the sorts.
+     *
+     * @param ctx is the context of the activity that called the method
+     * @return List<Pairs> This returns
+     */
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }

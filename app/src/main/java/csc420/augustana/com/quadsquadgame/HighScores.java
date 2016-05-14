@@ -1,8 +1,11 @@
 package csc420.augustana.com.quadsquadgame;
 
 /**
- * Created by Cat on 4/27/2016.
- * CR change
+ * The HighScores class keeps track of button clicks in order to create
+ * a high score.
+ *
+ * @author Devon White, Michael Currie, Luke Currie, Catherine Cross
+ * @since 4/22/2016
  */
 public class HighScores {
     private static int hintsCount;
@@ -15,6 +18,16 @@ public class HighScores {
     private static int wrongMovesWeight = 0;
     private static int restWeight = 0;
 
+
+    /**
+     * Constructor for the HighScores class
+     *
+     * @param hintsCount
+     * @param wrongTestCount
+     * @param resetCount
+     * @param totalScore
+     * @param wrongMovesCount
+     */
     public HighScores(int hintsCount, int wrongTestCount, int resetCount, int totalScore, int wrongMovesCount) {
         this.hintsCount = hintsCount;
         this.wrongTestCount = wrongTestCount;
@@ -24,7 +37,10 @@ public class HighScores {
         //this.topScores = topScores;
     }
 
-    public static void resetScores(){
+    /**
+     * This method resets all the scores to 0 to be called when the game is restarted
+     */
+    public static void resetScores() {
         hintsCount = 0;
         resetCount = 0;
         wrongTestCount = 0;
@@ -32,6 +48,12 @@ public class HighScores {
         totalScore = 0;
     }
 
+    /**
+     * The following methods return the count for the global variables
+     *
+     * @return int This returns the global variable for each of
+     * get methods below.
+     */
     public static int getHintsCount() {
         return hintsCount;
     }
@@ -48,6 +70,10 @@ public class HighScores {
         return wrongMovesCount;
     }
 
+    /**
+     * These methods add one to the score for the corresponding variables
+     * in order to create the total score.
+     */
     public static void addHint() {
         hintsCount++;
     }
@@ -64,8 +90,17 @@ public class HighScores {
         wrongMovesCount++;
     }
 
+    /**
+     * This method gets the total score by using the counts of the times the player used hints,
+     * the number of wrong tests, and the number of wrong moves. They are all multiplied by weights
+     * in order to value the scores as the programmer desires. For our purposes, we left the
+     * weights at 1.
+     *
+     * @param secondsRemaining int for the amount of time remaining
+     * @return int returns the total score using the weights and the counts
+     */
     public static int getTotalScore(int secondsRemaining) {
-        totalScore = secondsRemaining + -hintWeight * hintsCount - testWeight * wrongTestCount - wrongMovesWeight * wrongMovesCount - resetCount * restWeight;
+        totalScore = secondsRemaining - hintWeight * hintsCount - testWeight * wrongTestCount - wrongMovesWeight * wrongMovesCount - resetCount * restWeight;
         if (totalScore < 0) {
             totalScore = 0;
         }

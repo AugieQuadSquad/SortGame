@@ -1,14 +1,26 @@
 package csc420.augustana.com.quadsquadgame;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Cat on 4/27/2016.
+ * The BubbleSortModel class creates the algorithm for the Bubble Sort array. It also
+ * stores the string to display if Bubble Sort is being used.
+ *
+ * @author Devon White, Michael Currie, Luke Currie, Catherine Cross
+ * @since 4/10/2016
  */
 public class BubbleSortModel {
 
-    public static List<Pairs> getSwapSequence(int[] array){
+    /**
+     * This method accepts the array of the current order of objects and values
+     * and returns a list of Pairs elements. This list represents the order of moves
+     * to be completed for Bubble Sort.
+     *
+     * @param array This is the first parameter to addNum method
+     * @return List<Pairs> This returns the List of Pairs elements
+     */
+    public static List<Pairs> getSwapSequence(int[] array) {
         List<Pairs> pairsList = new ArrayList<Pairs>();
         int[] tempArray = new int[array.length];
         for (int i = 0; i < tempArray.length; i++) {
@@ -31,6 +43,11 @@ public class BubbleSortModel {
         return pairsList;
     }
 
+    /**
+     * This method returns the String Bubble Sort to display the sort name if needed
+     *
+     * @return String This returns the String of the sort name
+     */
     public static String getName() {
         return "Bubble Sort";
     }

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +26,17 @@ import java.util.Random;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
+
+/**
+ * This class runs the main screen during the game. It is expandable for any sort
+ * by following a pairs list of moves that determine the way the student should
+ * be sorting the elements in order to win the game. It also populates the original
+ * list and displays the messages when the player wins or loses the game.
+ *
+ * @author Devon White, Michael Currie, Luke Currie, Catherine Cross
+ * @since 4/9/2016
+ */
+
 public class GameBoard extends AppCompatActivity {
     private static final int BUBBLE_SORT = 0;
     private static final int INSERTION_SORT = 1;
@@ -42,18 +52,10 @@ public class GameBoard extends AppCompatActivity {
     private static Context context;
     private static Resources res;
 
-    HighScores hs;
-
     Button hint;
     Button test;
     Button reset;
 
-//    public static SharedPreferences pref;
-//    public static SharedPreferences.Editor editor;
-//    public static String[] ScoreKeys;
-//    public static int[] HighScoresValues;
-
-    // CR changes
     int[] arrayDisplayed;
     Random rand;
 
@@ -61,6 +63,14 @@ public class GameBoard extends AppCompatActivity {
 
     public static List<Pairs> pairsList;
 
+    /**
+     * This method is launched when the activity begins and sets the
+     * values for the original counts and initializes the text views and buttons.
+     * It also starts the timer and sets the list for the sort depending on the
+     * game number that was passed into the activity.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,12 +123,12 @@ public class GameBoard extends AppCompatActivity {
         animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
 
         // this initializes the order of swaps for sort
-        // if makes this expandable to use the same activity for all the sorts
+        // Expandable to use the same activity for all the sorts
         if (currentGame == BUBBLE_SORT) {
             pairsList = BubbleSortModel.getSwapSequence(buildArray());
         } else if (currentGame == INSERTION_SORT) {
             pairsList = InsertionSortModel.getSwapSequence(buildArray());
-        } else if(currentGame == SELECTION_SORT){
+        } else if (currentGame == SELECTION_SORT) {
             pairsList = SelectionSortModel.getSwapSequence(buildArray());
         } else {
             displayMessage("ERROR: Invalid Game Number");
@@ -130,8 +140,11 @@ public class GameBoard extends AppCompatActivity {
         timer.start();
     }
 
-    public void instantiateArray(){
-        // CR changes
+    /**
+     * This method initializes the original array of objects to create
+     * random numbers on the text view for the player to sort.
+     */
+    public void instantiateArray() {
         arrayDisplayed = new int[8];
         rand = new Random();
         for (int i = 0; i < arrayDisplayed.length; i++) {
@@ -139,15 +152,34 @@ public class GameBoard extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method updates the circular loader.
+     * Code adopted from https://github.com/lopspower/CircularFillableLoaders
+     *
+     * @param update accepts the int to change the timer graphic
+     */
     public static void setTimerGraphic(int update) {
         circularFillableLoaders.setProgress(update);
     }
 
+    /**
+     * This method sets the Activity context to the param context
+     *
+     * @param context accepts a context as the parameter
+     */
     public void yourNonActivityClass(Context context) {
         this.context = context;
     }
 
-    // swaps two text views
+    /**
+     * This method accepts two textViews and then changes the background
+     * and the text in order to swap the two elements.
+     * It also uses an external library in order to do the animation
+     * of the nodes bouncing up and down.
+     *
+     * @param item1TV
+     * @param item2TV
+     */
     private static void swap(TextView item1TV, TextView item2TV) {
         CharSequence tempText = item1TV.getText();
         int tempBackground = (int) item1TV.getTag();
@@ -167,7 +199,13 @@ public class GameBoard extends AppCompatActivity {
                 .playOn(item2TV);
     }
 
-    // tests to see if current move is the correct next move for any sort
+    /**
+     * This method tests to see if the list finished being sorted. If it is then
+     * it cancels the timer and gets the total score. Otherwise, it displays a message
+     * that says Keep Trying
+     *
+     * @param view
+     */
     public void testSwap(View view) {
         int[] current = buildArray();
         if (isSorted(current)) {
@@ -179,35 +217,47 @@ public class GameBoard extends AppCompatActivity {
         }
     }
 
-    // TODO: change for loops to fix SharePreferences high scores
+    /**
+     * This method gets the total score by calling the HighScores class. If the new totalScore
+     * is better than the previous high score, then the sharedPreferences are changed by calling
+     * the SaveSharedPreference class. It then also displays a toast if a new high score
+     * was reached.
+     *
+     * @return Lint This returns an int of the TotalScore
+     */
     public static int getTotalScore() {
         totalScore = HighScores.getTotalScore(Integer.parseInt(Timer.getSecondsRemaining()));
         Boolean newHighScore = false;
-        if(currentGame == BUBBLE_SORT){
-            if(totalScore > SaveSharedPreference.getPrefBubbleHighscore(context)){
+        if (currentGame == BUBBLE_SORT) {
+            if (totalScore > SaveSharedPreference.getPrefBubbleHighscore(context)) {
                 newHighScore = true;
                 SaveSharedPreference.setPrefBubbleHighscore(context, totalScore);
             }
-        } else if(currentGame == INSERTION_SORT){
-            if(totalScore > SaveSharedPreference.getPrefInsertionHighscore(context)){
+        } else if (currentGame == INSERTION_SORT) {
+            if (totalScore > SaveSharedPreference.getPrefInsertionHighscore(context)) {
                 newHighScore = true;
                 SaveSharedPreference.setPrefInsertionHighscore(context, totalScore);
             }
-        } else if(currentGame == SELECTION_SORT){
-            if(totalScore > SaveSharedPreference.getPrefSelectionHighscore(context)){
+        } else if (currentGame == SELECTION_SORT) {
+            if (totalScore > SaveSharedPreference.getPrefSelectionHighscore(context)) {
                 newHighScore = true;
                 SaveSharedPreference.setPrefSelectionHighscore(context, totalScore);
             }
         }
 
-        if(newHighScore == true){
+        if (newHighScore == true) {
             Toast.makeText(context, "New High Score!", Toast.LENGTH_SHORT).show();
         }
         showDialog(true);
         return totalScore;
     }
 
-    // executes next move according to pairs array
+    /**
+     * This method swaps the next two nodes to be swapped according to the
+     * PairsArray of moves
+     *
+     * @param view
+     */
     public void hint(View view) {
         if (!isSorted(buildArray())) {
             HighScores.addHint();
@@ -220,6 +270,10 @@ public class GameBoard extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method sets the onClickListener for the buttons to keep track of how many
+     * times the user uses the hints and test buttons
+     */
     private View.OnClickListener myClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -249,11 +303,23 @@ public class GameBoard extends AppCompatActivity {
         }
     };
 
+    /**
+     * This method displays the string parameter as a toast.
+     *
+     * @param string
+     */
     public void displayMessage(String string) {
         Toast.makeText(this, (string), Toast.LENGTH_SHORT).show();
     }
 
-    // checks if sorted
+    /**
+     * This method checks to see if the list is sorted by comparing the values
+     * of neighboring text views. It returns true if sorted correctly, otherwise
+     * returns false.
+     *
+     * @param outsideArray
+     * @return Boolean
+     */
     public static boolean isSorted(int[] outsideArray) {
         boolean sorted = true;
         for (int i = 0; i < outsideArray.length - 1; i++) {
@@ -264,7 +330,12 @@ public class GameBoard extends AppCompatActivity {
         return sorted;
     }
 
-    // creates an int array of the current order of textViews
+    /**
+     * This method builds the array by getting the text in the TextView in the
+     * current order on the screen that the user would be seeing.
+     *
+     * @return int[]
+     */
     public static int[] buildArray() {
         int[] array = new int[totalCount];
         for (int i = 0; i < totalCount; i++) {
@@ -273,7 +344,14 @@ public class GameBoard extends AppCompatActivity {
         return array;
     }
 
-    // checks if the move attempted by the user is the correct next move
+    /**
+     * This method checks to see if the swap was the correct next move for the
+     * user according to the pairs list of the current sort.
+     *
+     * @param tv1 textView1
+     *            tv2 textView2
+     * @return boolean returns true if correct next move, false otherwise
+     */
     public boolean isNextMove(TextView tv1, TextView tv2) {
         int indexOf1 = Arrays.asList(items).indexOf(tv1);
         int indexOf2 = Arrays.asList(items).indexOf(tv2);
@@ -284,7 +362,12 @@ public class GameBoard extends AppCompatActivity {
         }
     }
 
-    // resets the gameBoard screen to original state
+    /**
+     * This method resets the gameboard by adding a point to the scores class for reset, cancels
+     * the timer and then restarts the activity.
+     *
+     * @param view
+     */
     public void reset(View view) {
         HighScores.addResetClick();
         Intent intent = getIntent();
@@ -293,8 +376,14 @@ public class GameBoard extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // adds tutorial to show user how to use interface
-    // SOURCE: https://github.com/deano2390/MaterialShowcaseView
+    /**
+     * This method starts the tutorial for how to work the view, using the
+     * external library sourced below:
+     * <p/>
+     * SOURCE: https://github.com/deano2390/MaterialShowcaseView
+     *
+     * @param view
+     */
     public void Tutorial(View view) {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); //Delay is in milliseconds
@@ -310,7 +399,13 @@ public class GameBoard extends AppCompatActivity {
         sequence.start();
     }
 
-    // shows the pop-up screen after finishing round
+    /**
+     * This method creates the dialog builder to display the final scores once the
+     * game is finished by pulling the scores from the HighScores class and setting
+     * the Text fields in the dialog layout.
+     *
+     * @param timeOut boolean that is true if the player ran out of time and false otherwise
+     */
     public static void showDialog(boolean timeOut) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -343,6 +438,11 @@ public class GameBoard extends AppCompatActivity {
         b.show();
     }
 
+    /**
+     * This method restarts the activity and cancels the timer.
+     *
+     * @param view
+     */
     public void playAgain(View view) {
         /*instantiateArray();*/
         Timer.cancel();
@@ -352,6 +452,12 @@ public class GameBoard extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * This method cancels the timer, then it starts the activity over again
+     * by passing the menu with the parameters of GameBoard and MainMenu
+     *
+     * @param view
+     */
     public void quit(View view) {
         Intent menu = new Intent(GameBoard.this, MainMenu.class);
         Timer.cancel();
@@ -359,7 +465,13 @@ public class GameBoard extends AppCompatActivity {
         finish();
     }
 
-    // shows the pop-up for the high score using SharedPreferences
+    /**
+     * This method populates the highscores dialog which displays after you click
+     * on HighScores after the game finishes. It also sets the buttons to play again or
+     * quit to go back to the main menu.
+     *
+     * @param view
+     */
     public void highScores(final View view) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -382,14 +494,13 @@ public class GameBoard extends AppCompatActivity {
         });
 
 
-
-        if(currentGame == BUBBLE_SORT){
+        if (currentGame == BUBBLE_SORT) {
             builder.setTitle("Bubble Sort Highscore!");
             builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefBubbleHighscore(context));
-        } else if(currentGame == INSERTION_SORT){
+        } else if (currentGame == INSERTION_SORT) {
             builder.setTitle("Insertion Sort Highscore!");
             builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefInsertionHighscore(context));
-        } else if(currentGame == SELECTION_SORT){
+        } else if (currentGame == SELECTION_SORT) {
             builder.setTitle("Selection Sort Highscore!");
             builder.setMessage(res.getString(R.string.hs1) + " " + SaveSharedPreference.getPrefSelectionHighscore(context));
         } else {

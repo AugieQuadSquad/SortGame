@@ -3,7 +3,10 @@ package csc420.augustana.com.quadsquadgame;
 import android.os.CountDownTimer;
 
 /**
- * Created by Devon White on 4/29/2016.
+ * The Timer class creates the Timer countdown
+ *
+ * @author Devon White, Michael Currie, Luke Currie, Catherine Cross
+ * @since 4/10/2016
  */
 public class Timer {
 
@@ -13,7 +16,9 @@ public class Timer {
     public static CountDownTimer timer;
 
 
-
+    /**
+     * This method initiates and starts the countDownTimer
+     */
     public void start() {
         // 60000ms with a tick every 1000
         timer = new CountDownTimer(secondCountDown * 1000, 1000) {
@@ -35,11 +40,19 @@ public class Timer {
         }.start();
     }
 
-    public static String getSecondsRemaining(){
+    /**
+     * This method returns the number of seconds remaining when the timer ends.
+     *
+     * @return String
+     */
+    public static String getSecondsRemaining() {
         return secondsRemaining;
     }
 
-    public static void cancel(){
+    /**
+     * This method cancels the timer
+     */
+    public static void cancel() {
         timer.cancel();
     }
 }
